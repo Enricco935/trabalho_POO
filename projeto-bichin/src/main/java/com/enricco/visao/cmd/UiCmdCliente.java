@@ -13,6 +13,7 @@ public class UiCmdCliente {
     public UiCmdCliente(ClienteController controllerCliente, ServicoPrestadoController controllerServicoPrestado) {
         this.controllerCliente = controllerCliente;
         this.controllerServicoPrestado = controllerServicoPrestado;
+        this.teclado = new Scanner(System.in);
     }
 
    private void buscar(){
@@ -58,7 +59,6 @@ public class UiCmdCliente {
     }
 
     public void iniciar() {
-        teclado = new Scanner(System.in);
         int opcao = 0;
 
         while (opcao != 5) {

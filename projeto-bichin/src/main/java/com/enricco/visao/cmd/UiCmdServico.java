@@ -4,12 +4,13 @@ import java.util.Scanner;
 
 import com.enricco.controller.ServicoController;
 
-public class UICmdServico {
+public class UiCmdServico {
     private ServicoController controllerServico;
     private Scanner teclado;
 
-    public UICmdServico(ServicoController controllerServico) {
+    public UiCmdServico(ServicoController controllerServico) {
         this.controllerServico = controllerServico;
+        this.teclado = new Scanner(System.in);
     }
 
     private void listar() {
@@ -73,7 +74,6 @@ public class UICmdServico {
     }
 
     public void iniciar() {
-        teclado = new Scanner(System.in);
         int opcao = 0;
 
         while (opcao != 6) {

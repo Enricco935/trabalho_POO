@@ -36,6 +36,16 @@ public class PetController {
         return petRepository.buscarPorId(id);
     }
 
+    public void alterar(int id, String nome, String especie, String raca, LocalDate dataNascimento) {
+        Pet pet = petRepository.buscarPorId(id);
+        if (pet != null) {
+            pet.setNome(nome);
+            pet.setEspecie(especie);
+            pet.setRaca(raca);
+            pet.setNascimento(dataNascimento);
+        }
+    }
+
     public ArrayList<Pet> listar() {
         return petRepository.listar();
     }

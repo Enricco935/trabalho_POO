@@ -15,10 +15,10 @@ public class UI_Cmd {
         this.uiCmdPet = uiCmdPet;
         this.uiCmdServico = uiCmdServico;
         this.uiCmdServicoPrestado = uiCmdServicoPrestado;
+        this.teclado = new Scanner(System.in);
     }
 
     public void iniciar(){
-        teclado = new Scanner(System.in);
         int opcao = 0;
 
         while (opcao != 5) {
@@ -44,13 +44,13 @@ public class UI_Cmd {
                     System.out.println("Menu de clientes ainda nao implementado.");
                     break;
                 case 2:
-                    System.out.println("Menu de pets ainda nao implementado.");
+                    uiCmdPet.iniciar();
                     break;
                 case 3:
                     System.out.println("Menu de servicos ainda nao implementado.");
                     break;
                 case 4:
-                    System.out.println("Menu de servicos prestados ainda nao implementado.");
+                    uiCmdServicoPrestado.iniciar();
                     break;
                 case 5:
                     System.out.println("Saindo do sistema.");
