@@ -35,6 +35,15 @@ public class ServicoRepository {
         servicos.remove(servico);
     }
 
+    public void alterar(Servico servico) {
+        for (int i = 0; i < servicos.size(); i++) {
+            if (servicos.get(i).getId() == servico.getId()) {
+                servicos.set(i, servico);
+                return;
+            }
+        }
+    }
+
     public void carregarDados(String caminho) {
         try (BufferedReader leitor = new BufferedReader(new FileReader(caminho))) {
             String linha;

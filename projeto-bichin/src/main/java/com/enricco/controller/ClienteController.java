@@ -31,4 +31,13 @@ public class ClienteController {
     public Cliente buscar(int id) {
         return clienteRepository.buscarPorId(id);
     }
+
+    public void alterar(int id, String nome, String telefone) {
+        Cliente cliente = clienteRepository.buscarPorId(id);
+        if (cliente != null) {
+            cliente.setNome(nome);
+            cliente.setTelefone(telefone);
+            clienteRepository.alterar(cliente);
+        }
+    }
 }

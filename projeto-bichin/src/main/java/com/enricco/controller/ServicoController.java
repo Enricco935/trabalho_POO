@@ -24,6 +24,15 @@ public class ServicoController {
         servicoRepository.adicionar(new Servico(id, nome, preco));
     }
 
+    public void alterar(int id, String descricao, double valor) {
+        Servico servico = servicoRepository.buscarPorId(id);
+        if (servico != null) {
+            servico.setDescricao(descricao);
+            servico.setValor(valor);
+            servicoRepository.alterar(servico);
+        }
+    }
+
     public ArrayList<Servico> listar() {
         return servicoRepository.listar();
     }

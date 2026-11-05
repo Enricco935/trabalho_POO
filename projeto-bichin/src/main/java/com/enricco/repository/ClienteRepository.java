@@ -36,6 +36,15 @@ public class ClienteRepository {
         clientes.remove(cliente);
     }
 
+    public void alterar(Cliente cliente) {
+        for (int i = 0; i < clientes.size(); i++) {
+            if (clientes.get(i).getId() == cliente.getId()) {
+                clientes.set(i, cliente);
+                return;
+            }
+        }
+    }
+
     public void carregarDados(String caminho) {
         try (BufferedReader leitor = new BufferedReader(new FileReader(caminho))) {
 
