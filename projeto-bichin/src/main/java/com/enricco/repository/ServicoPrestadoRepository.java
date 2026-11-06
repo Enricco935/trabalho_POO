@@ -1,7 +1,9 @@
 package com.enricco.repository;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,6 +41,11 @@ public class ServicoPrestadoRepository {
         servicosPrestados.remove(servicoPrestado);
     }
 
+    public void removerPorPetId(int idPet) {
+        servicosPrestados.removeIf(servicoPrestado -> servicoPrestado.getPet() != null
+                && servicoPrestado.getPet().getId() == idPet);
+    }
+
     public void carregarDados(String caminho, ServicoRepository servicoRepository, PetRepository petRepository) {
         try (BufferedReader leitor = new BufferedReader(new FileReader(caminho))) {
             String linha;
@@ -61,6 +68,26 @@ public class ServicoPrestadoRepository {
             }
         } catch (IOException e) {
             System.out.println("Erro ao carregar serviços prestados: " + e.getMessage());
+        }
+    }
+
+    public void salvarDados(String caminho) {
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(caminho))) {
+            escritor.write("id;id_servico;data;valor_cobrado;id_pet");
+            escritor.newLine();
+
+            for (ServicoPrestado servicoPrestado : servicosPrestados) {
+                escritor.write(
+                    servicoPrestado.getId() + ";" +
+                    servicoPrestado.getServico().getId() + ";" +
+                    servicoPrestado.getData() + ";" +
+                    servicoPrestado.getValorCobrado() + ";" +
+                    servicoPrestado.getPet().getId()
+                );
+                escritor.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar serviços prestados: " + e.getMessage());
         }
     }
 

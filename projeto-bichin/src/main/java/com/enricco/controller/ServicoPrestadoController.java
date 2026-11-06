@@ -48,20 +48,35 @@ public class ServicoPrestadoController {
         return servicoPrestadoRepository.buscarPorId(id);
     }
 
+    public Servico buscarServico(int id) {
+        return servicoRepository.buscarPorId(id);
+    }
+
     public ArrayList<Pet> buscarBichosPorNomeDono(String nomeDono) {
         return servicoPrestadoRepository.buscarBichosPorNomeDono(nomeDono);
     }
 
-    public ArrayList<ServicoPrestado> buscarPorPeriodo(String dataInicio, String dataFim) {
-        return servicoPrestadoRepository.buscarPorPeriodo(LocalDate.parse(dataInicio), LocalDate.parse(dataFim));
+    public ArrayList<ServicoPrestado> buscarPorPeriodo(LocalDate dataInicio, LocalDate dataFim) {
+        return servicoPrestadoRepository.buscarPorPeriodo(dataInicio, dataFim);
     }
 
-    public void adicionar(int id, LocalDate data, int idPet, int idServico, double valor) {
+    public boolean adicionar(int id, LocalDate data, int idPet, int idServico, double valor) {
+        if (servicoPrestadoRepository.buscarPorId(id) != null) {
+            return false;
+        }
+
         Pet pet = petRepository.buscarPorId(idPet);
         Servico servico = servicoRepository.buscarPorId(idServico);
-        if (pet != null) {
-            servicoPrestadoRepository.adicionar(new ServicoPrestado(id, servico, data, valor, pet));
+        if (pet == null || servico == null) {
+            return false;
         }
+
+        servicoPrestadoRepository.adicionar(new ServicoPrestado(id, servico, data, valor, pet));
+        return true;
+    }
+
+    public Pet buscarPet(int id) {
+        return petRepository.buscarPorId(id);
     }
 
     public ArrayList<ServicoPrestado> buscarPorCliente(Cliente cliente) {

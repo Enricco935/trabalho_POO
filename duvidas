@@ -1,5 +1,0 @@
-Duvidas
-O construtor das classes deve criar o id?
-
-Considerações
-Foi criada um construtor de copia do cliente, para ser feita a composição com a classe pet, passando um Cliente como parametro para pet.

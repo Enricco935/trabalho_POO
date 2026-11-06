@@ -1,7 +1,9 @@
 package com.enricco.repository;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -63,5 +65,22 @@ public class ServicoRepository {
         }
     }
 
+    public void salvarDados(String caminho) {
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(caminho))) {
+            escritor.write("id;descricao;valor");
+            escritor.newLine();
+
+            for (Servico servico : servicos) {
+                escritor.write(
+                    servico.getId() + ";" +
+                    servico.getDescricao() + ";" +
+                    servico.getValor()
+                );
+                escritor.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar serviços: " + e.getMessage());
+        }
+    }
 
 }

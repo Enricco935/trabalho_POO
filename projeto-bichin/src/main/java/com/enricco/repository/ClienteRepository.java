@@ -1,9 +1,10 @@
 package com.enricco.repository;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.ArrayList;
 
 import com.enricco.model.Cliente;
@@ -37,9 +38,10 @@ public class ClienteRepository {
     }
 
     public void alterar(Cliente cliente) {
-        for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getId() == cliente.getId()) {
-                clientes.set(i, cliente);
+        for (Cliente clienteExistente : clientes) {
+            if (clienteExistente.getId() == cliente.getId()) {
+                clienteExistente.setNome(cliente.getNome());
+                clienteExistente.setTelefone(cliente.getTelefone());
                 return;
             }
         }
@@ -66,4 +68,23 @@ public class ClienteRepository {
         }
     }
 
+    public void salvarDados(String caminho) {
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(caminho))) {
+
+            escritor.write("id;nome;telefone");
+            escritor.newLine();
+
+            for (Cliente cliente : clientes) {
+                escritor.write(
+                    cliente.getId() + ";" +
+                    cliente.getNome() + ";" +
+                    cliente.getTelefone()
+                );
+                escritor.newLine();
+            }
+
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar clientes: " + e.getMessage());
+        }
+    }
 }

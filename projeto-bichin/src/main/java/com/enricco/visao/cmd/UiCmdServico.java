@@ -1,16 +1,13 @@
 package com.enricco.visao.cmd;
 
-import java.util.Scanner;
-
 import com.enricco.controller.ServicoController;
+import com.enricco.util.InputUtils;
 
 public class UiCmdServico {
     private ServicoController controllerServico;
-    private Scanner teclado;
 
     public UiCmdServico(ServicoController controllerServico) {
         this.controllerServico = controllerServico;
-        this.teclado = new Scanner(System.in);
     }
 
     private void listar() {
@@ -21,8 +18,7 @@ public class UiCmdServico {
     }
 
     private void buscar() {
-        System.out.print("Digite o ID do servico que deseja buscar: ");
-        int id = Integer.parseInt(teclado.next());
+        int id = InputUtils.lerInteiro("Digite o ID do servico que deseja buscar: ");
         var servico = controllerServico.buscar(id);
 
         if (servico != null) {
@@ -33,10 +29,13 @@ public class UiCmdServico {
     }
 
     private void apagar() {
-        System.out.print("Digite o ID do servico que deseja remover: ");
-        int id = Integer.parseInt(teclado.next());
+        int id = InputUtils.lerInteiro("Digite o ID do servico que deseja remover: ");
 
-        if (controllerServico.remover(id)) {
+        if (controllerServico.buscar(id) == null) {
+            System.out.println("Servico nao encontrado.");
+        } else if (controllerServico.temServicosPrestados(id)) {
+            System.out.println("Nao e possivel remover o servico: existem registros de servicos prestados associados a ele.");
+        } else if (controllerServico.remover(id)) {
             System.out.println("Servico removido com sucesso.");
         } else {
             System.out.println("Servico nao encontrado.");
@@ -44,27 +43,21 @@ public class UiCmdServico {
     }
 
     private void adicionar() {
-        System.out.print("Digite o ID do servico: ");
-        int id = Integer.parseInt(teclado.next());
-        System.out.print("Digite a descricao do servico: ");
-        String descricao = teclado.next();
-        System.out.print("Digite o valor do servico: ");
-        double valor = Double.parseDouble(teclado.next());
+        int id = InputUtils.lerInteiro("Digite o ID do servico: ");
+        String descricao = InputUtils.lerTexto("Digite a descricao do servico: ");
+        double valor = InputUtils.lerDouble("Digite o valor do servico: ");
 
         controllerServico.adicionar(id, descricao, valor);
         System.out.println("Servico adicionado com sucesso.");
     }
 
     private void alterar() {
-        System.out.print("Digite o ID do servico que deseja alterar: ");
-        int id = Integer.parseInt(teclado.next());
+        int id = InputUtils.lerInteiro("Digite o ID do servico que deseja alterar: ");
         var servico = controllerServico.buscar(id);
 
         if (servico != null) {
-            System.out.print("Digite a nova descricao: ");
-            String descricao = teclado.next();
-            System.out.print("Digite o novo valor: ");
-            double valor = Double.parseDouble(teclado.next());
+            String descricao = InputUtils.lerTexto("Digite a nova descricao: ");
+            double valor = InputUtils.lerDouble("Digite o novo valor: ");
 
             controllerServico.alterar(id, descricao, valor);
             System.out.println("Servico alterado com sucesso.");
@@ -87,13 +80,7 @@ public class UiCmdServico {
             System.out.println("4 - Alterar servico");
             System.out.println("5 - Remover servico");
             System.out.println("6 - Voltar ao menu principal");
-            System.out.print("Escolha uma opcao: ");
-
-            try {
-                opcao = Integer.parseInt(teclado.next());
-            } catch (NumberFormatException e) {
-                opcao = 0;
-            }
+            opcao = InputUtils.lerInteiro("Escolha uma opcao: ");
 
             switch (opcao) {
                 case 1:

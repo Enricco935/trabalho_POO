@@ -1,18 +1,16 @@
 package com.enricco.visao.cmd;
 
 import java.time.LocalDate;
-import java.util.Scanner;
-
 import com.enricco.controller.ClienteController;
 import com.enricco.controller.PetController;
+import com.enricco.util.InputUtils;
+import com.enricco.util.OutputUtils;
 
 public class UiCmdPet {
-    private Scanner teclado;
     private ClienteController controllerCliente;
     private PetController controllerPet;
 
     public UiCmdPet(ClienteController controllerCliente, PetController controllerPet) {
-        this.teclado = new Scanner(System.in);
         this.controllerCliente = controllerCliente;
         this.controllerPet = controllerPet;
     }
@@ -22,61 +20,54 @@ public class UiCmdPet {
         for (var pet : controllerPet.listar()) {
             System.out.println(pet.getId() + " - " + pet.getNome() + " - " + pet.getEspecie()
                     + " - " + pet.getRaca() + " - " + pet.getCliente().getNome()
-                    + " - " + pet.getNascimento());
+                    + " - " + OutputUtils.formatarData(pet.getNascimento()));
         }
     }
 
     private void adicionar() {
-        System.out.print("Digite o ID do pet: ");
-        int idPet = Integer.parseInt(teclado.next());
+        int idPet = InputUtils.lerInteiro("Digite o ID do pet: ");
         if (controllerPet.buscar(idPet) != null) {
             System.out.println("Ja existe um pet com esse ID.");
             return;
         }
 
-        System.out.print("Digite o nome do pet: ");
-        String nomePet = teclado.next();
-        System.out.print("Digite a especie do pet: ");
-        String especie = teclado.next();
-        System.out.print("Digite a raca do pet: ");
-        String raca = teclado.next();
-        System.out.print("Digite a data de nascimento do pet (AAAA-MM-DD): ");
-        LocalDate nascimento = LocalDate.parse(teclado.next());
+        String nomePet = InputUtils.lerTexto("Digite o nome do pet: ");
+        String especie = InputUtils.lerTexto("Digite a especie do pet: ");
+        String raca = InputUtils.lerTexto("Digite a raca do pet: ");
+        LocalDate nascimento = InputUtils.lerData("Digite a data de nascimento do pet (dd/MM/aaaa): ");
 
-        System.out.print("Digite o ID do cliente: ");
-        int idCliente = Integer.parseInt(teclado.next());
+        int idCliente = InputUtils.lerInteiro("Digite o ID do novo cliente: ");
         if (controllerCliente.buscar(idCliente) != null) {
             System.out.println("Ja existe um cliente com esse ID.");
             return;
         }
 
-        System.out.print("Digite o nome do cliente: ");
-        String nomeCliente = teclado.next();
-        System.out.print("Digite o telefone do cliente: ");
-        String telefone = teclado.next();
+        String nomeCliente = InputUtils.lerTexto("Digite o nome do cliente: ");
+        String telefoneCliente = InputUtils.lerTelefone("Digite o telefone do cliente (dd) ddddd-ddddd: ");
 
-        controllerCliente.adicionar(idCliente, nomeCliente, telefone);
-        controllerPet.adicionar(idPet, nomePet, especie, raca, nascimento, idCliente);
-        System.out.println("Cliente e pet adicionados com sucesso.");
+        if (controllerPet.adicionar(idPet, nomePet, especie, raca, nascimento,
+                idCliente, nomeCliente, telefoneCliente)) {
+            System.out.println("Cliente e pet adicionados com sucesso.");
+        } else {
+            System.out.println("Nao foi possivel adicionar o cliente e o pet. Verifique os IDs informados.");
+        }
     }
 
     private void buscar() {
-        System.out.print("Digite o ID do pet que deseja buscar: ");
-        int id = Integer.parseInt(teclado.next());
+        int id = InputUtils.lerInteiro("Digite o ID do pet que deseja buscar: ");
         var pet = controllerPet.buscar(id);
 
         if (pet != null) {
             System.out.println("Pet encontrado: " + pet.getNome() + " - " + pet.getEspecie()
                     + " - " + pet.getRaca() + " - Tutor: " + pet.getCliente().getNome()
-                    + " - Nascimento: " + pet.getNascimento());
+                    + " - Nascimento: " + OutputUtils.formatarData(pet.getNascimento()));
         } else {
             System.out.println("Pet nao encontrado.");
         }
     }
 
     private void alterar() {
-        System.out.print("Digite o ID do pet que deseja alterar: ");
-        int id = Integer.parseInt(teclado.next());
+        int id = InputUtils.lerInteiro("Digite o ID do pet que deseja alterar: ");
         var pet = controllerPet.buscar(id);
 
         if (pet == null) {
@@ -84,25 +75,29 @@ public class UiCmdPet {
             return;
         }
 
-        System.out.print("Digite o novo nome do pet: ");
-        String nome = teclado.next();
-        System.out.print("Digite a nova especie do pet: ");
-        String especie = teclado.next();
-        System.out.print("Digite a nova raca do pet: ");
-        String raca = teclado.next();
-        System.out.print("Digite a nova data de nascimento (AAAA-MM-DD): ");
-        LocalDate nascimento = LocalDate.parse(teclado.next());
+        String nome = InputUtils.lerTexto("Digite o novo nome do pet: ");
+        String especie = InputUtils.lerTexto("Digite a nova especie do pet: ");
+        String raca = InputUtils.lerTexto("Digite a nova raca do pet: ");
+        LocalDate nascimento = InputUtils.lerData("Digite a nova data de nascimento (dd/MM/aaaa): ");
 
         controllerPet.alterar(id, nome, especie, raca, nascimento);
         System.out.println("Pet alterado com sucesso.");
     }
 
     private void apagar() {
-        System.out.print("Digite o ID do pet que deseja remover: ");
-        int id = Integer.parseInt(teclado.next());
+        int id = InputUtils.lerInteiro("Digite o ID do pet que deseja remover: ");
+        var pet = controllerPet.buscar(id);
 
-        if (controllerPet.remover(id)) {
+        if (pet == null) {
+            System.out.println("Pet nao encontrado.");
+        } else if (controllerPet.remover(id)) {
             System.out.println("Pet removido com sucesso.");
+            if (controllerCliente.buscar(pet.getCliente().getId()) == null) {
+                System.out.println("O cliente associado tambem foi removido.");
+            } else {
+                System.out.println("O cliente foi mantido porque esta associado a outro pet.");
+            }
+            System.out.println("Os servicos prestados associados a esse pet tambem foram removidos.");
         } else {
             System.out.println("Pet nao encontrado.");
         }
@@ -122,13 +117,7 @@ public class UiCmdPet {
             System.out.println("4 - Alterar pet");
             System.out.println("5 - Remover pet");
             System.out.println("6 - Voltar ao menu principal");
-            System.out.print("Escolha uma opcao: ");
-
-            try {
-                opcao = Integer.parseInt(teclado.next());
-            } catch (NumberFormatException e) {
-                opcao = 0;
-            }
+            opcao = InputUtils.lerInteiro("Escolha uma opcao: ");
 
             switch (opcao) {
                 case 1:

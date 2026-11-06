@@ -18,7 +18,7 @@ public class Pet {
         this.nome = nome;
         this.especie = especie;
         this.raca = raca;
-        this.cliente = new Cliente(cliente);
+        this.cliente = cliente;
         this.nascimento = nascimento;
     }
 

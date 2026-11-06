@@ -1,9 +1,14 @@
 package com.enricco.application;
+import com.enricco.config.CaminhosArquivo;
 import com.enricco.controller.*;
 import com.enricco.visao.cmd.*;
 import com.enricco.repository.*;
 
 public class Application {
+    private ClienteRepository clienteRepository;
+    private PetRepository petRepository;
+    private ServicoRepository servicoRepository;
+    private ServicoPrestadoRepository servicoPrestadoRepository;
 
     //centralizamos a montagem do sistema em uma unica classe, para facilitar a manutencao e a extensao do sistema
     public void iniciar() {
@@ -15,10 +20,10 @@ public class Application {
         *As classes desse nível serão injetadas na camada de controller
         * ========================================
         */
-        ClienteRepository clienteRepository = new ClienteRepository();
-        PetRepository petRepository = new PetRepository();
-        ServicoRepository servicoRepository = new ServicoRepository();
-        ServicoPrestadoRepository servicoPrestadoRepository = new ServicoPrestadoRepository();
+        this.clienteRepository = new ClienteRepository();
+        this.petRepository = new PetRepository();
+        this.servicoRepository = new ServicoRepository();
+        this.servicoPrestadoRepository = new ServicoPrestadoRepository();
 
         /*
         * ========================================
@@ -27,10 +32,10 @@ public class Application {
         * Exemplo: clienteRepository.carregarDados("dados/clientes.txt");
         * ========================================
         */
-        clienteRepository.carregarDados("dados/clientes.txt");
-        petRepository.carregarDados("dados/pets.txt", clienteRepository);
-        servicoRepository.carregarDados("dados/servicos.txt");
-        servicoPrestadoRepository.carregarDados("dados/servicos_prestados.txt", servicoRepository, petRepository);
+        clienteRepository.carregarDados(CaminhosArquivo.CLIENTES);
+        petRepository.carregarDados(CaminhosArquivo.PETS, clienteRepository);
+        servicoRepository.carregarDados(CaminhosArquivo.SERVICOS);
+        servicoPrestadoRepository.carregarDados(CaminhosArquivo.SERVICOS_PRESTADOS, servicoRepository, petRepository);
 
 
         /*
@@ -41,9 +46,9 @@ public class Application {
         *Logo abaixo, as classes dessa camada serão injetadas nas classes da camada de visão.
         * ========================================
         */
-        ClienteController clienteController = new ClienteController(clienteRepository);
-        PetController petController = new PetController(petRepository, clienteRepository);
-        ServicoController servicoController = new ServicoController(servicoRepository);
+        ClienteController clienteController = new ClienteController(clienteRepository, petRepository);
+        PetController petController = new PetController(petRepository, clienteRepository, servicoPrestadoRepository);
+        ServicoController servicoController = new ServicoController(servicoRepository, servicoPrestadoRepository);
         ServicoPrestadoController servicoPrestadoController = new ServicoPrestadoController(petRepository, servicoRepository, servicoPrestadoRepository);
 
 
@@ -67,6 +72,18 @@ public class Application {
             );
 
         UICmd.iniciar();
+
+        encerrar();
+    }
+
+    public void encerrar() {
+        System.out.println("Encerrando o sistema...");
+
+        clienteRepository.salvarDados(CaminhosArquivo.CLIENTES);
+        petRepository.salvarDados(CaminhosArquivo.PETS);
+        servicoRepository.salvarDados(CaminhosArquivo.SERVICOS);
+        servicoPrestadoRepository.salvarDados(CaminhosArquivo.SERVICOS_PRESTADOS);
+
     }
 
 }

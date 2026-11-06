@@ -1,34 +1,33 @@
 package com.enricco.visao.cmd;
 
 import java.time.LocalDate;
-import java.util.Scanner;
 
 import com.enricco.controller.ClienteController;
 import com.enricco.controller.ServicoPrestadoController;
+import com.enricco.model.Servico;
+import com.enricco.util.InputUtils;
+import com.enricco.util.OutputUtils;
 
 public class UiCmdServicoPrestado {
     private ClienteController controllerCliente;
     private ServicoPrestadoController controllerServicoPrestado;
-    private Scanner teclado;
 
     public UiCmdServicoPrestado(ClienteController controllerCliente,
             ServicoPrestadoController controllerServicoPrestado) {
-        this.teclado = new Scanner(System.in);
         this.controllerCliente = controllerCliente;
         this.controllerServicoPrestado = controllerServicoPrestado;
     }
 
     private void servicosPorPeriodo() {
-        System.out.print("Digite a data inicial (AAAA-MM-DD): ");
-        String dataInicio = teclado.next();
-        System.out.print("Digite a data final (AAAA-MM-DD): ");
-        String dataFim = teclado.next();
+        LocalDate dataInicio = InputUtils.lerData("Digite a data inicial (dd/MM/aaaa): ");
+        LocalDate dataFim = InputUtils.lerData("Digite a data final (dd/MM/aaaa): ");
 
         var servicos = controllerServicoPrestado.buscarPorPeriodo(dataInicio, dataFim);
         System.out.println("Servicos prestados no periodo:");
         for (var servico : servicos) {
             System.out.println(servico.getId() + " - " + servico.getServico().getDescricao()
-                    + " - " + servico.getData() + " - R$ " + servico.getValorCobrado());
+                    + " - " + OutputUtils.formatarData(servico.getData())
+                    + " - R$ " + servico.getValorCobrado());
         }
         if (servicos.isEmpty()) {
             System.out.println("Nenhum servico encontrado nesse periodo.");
@@ -36,24 +35,42 @@ public class UiCmdServicoPrestado {
     }
 
     private void adicionar() {
-        System.out.print("Digite o ID do servico prestado: ");
-        int id = Integer.parseInt(teclado.next());
-        System.out.print("Digite a data do servico (AAAA-MM-DD): ");
-        LocalDate data = LocalDate.parse(teclado.next());
-        System.out.print("Digite o ID do pet: ");
-        int idPet = Integer.parseInt(teclado.next());
-        System.out.print("Digite o ID do servico: ");
-        int idServico = Integer.parseInt(teclado.next());
-        System.out.print("Digite o valor cobrado: ");
-        double valor = Double.parseDouble(teclado.next());
+        int id = InputUtils.lerInteiro("Digite o ID do servico prestado: ");
+        if (controllerServicoPrestado.buscar(id) != null) {
+            System.out.println("Ja existe um servico prestado com esse ID.");
+            return;
+        }
 
-        controllerServicoPrestado.adicionar(id, data, idPet, idServico, valor);
-        System.out.println("Servico prestado adicionado.");
+        LocalDate data = InputUtils.lerData("Digite a data do servico (dd/MM/aaaa): ");
+        int idPet = InputUtils.lerInteiro("Digite o ID do pet: ");
+        if (controllerServicoPrestado.buscarPet(idPet) == null) {
+            System.out.println("Pet nao encontrado. O servico prestado nao foi cadastrado.");
+            return;
+        }
+
+        int idServico;
+        Servico servico = null;
+        do {
+            idServico = InputUtils.lerInteiro("Digite o ID do servico: ");
+            servico = controllerServicoPrestado.buscarServico(idServico);
+            if (servico == null) {
+                System.out.println("Servico nao encontrado. Informe um ID valido.");
+            }
+        } while (servico == null);
+
+        System.out.printf("Servico escolhido: %s - Valor cadastrado: R$ %.2f%n",
+                servico.getDescricao(), servico.getValor());
+        double valor = InputUtils.lerDouble("Digite o valor cobrado: ");
+
+        if (controllerServicoPrestado.adicionar(id, data, idPet, idServico, valor)) {
+            System.out.println("Servico prestado adicionado.");
+        } else {
+            System.out.println("Nao foi possivel cadastrar o servico prestado. Confira os IDs informados.");
+        }
     }
 
     private void animaisDoDono() {
-        System.out.print("Digite o nome do dono: ");
-        String nomeDono = teclado.next();
+        String nomeDono = InputUtils.lerTexto("Digite o nome do dono: ");
         var pets = controllerServicoPrestado.buscarBichosPorNomeDono(nomeDono);
 
         System.out.println("Animais do dono:");
@@ -67,8 +84,7 @@ public class UiCmdServicoPrestado {
     }
 
     private void apagar() {
-        System.out.print("Digite o ID do servico prestado que deseja remover: ");
-        int id = Integer.parseInt(teclado.next());
+        int id = InputUtils.lerInteiro("Digite o ID do servico prestado que deseja remover: ");
 
         if (controllerServicoPrestado.removerServicoPrestado(id)) {
             System.out.println("Servico prestado removido com sucesso.");
@@ -78,8 +94,7 @@ public class UiCmdServicoPrestado {
     }
 
     private void maiorValor() {
-        System.out.print("Digite o ID do cliente: ");
-        int idCliente = Integer.parseInt(teclado.next());
+        int idCliente = InputUtils.lerInteiro("Digite o ID do cliente: ");
         var cliente = controllerCliente.buscar(idCliente);
 
         if (cliente == null) {
@@ -96,13 +111,13 @@ public class UiCmdServicoPrestado {
         for (var servico : controllerServicoPrestado.listar()) {
             System.out.println(servico.getId() + " - " + servico.getServico().getDescricao()
                     + " - " + servico.getPet().getNome() + " - " + servico.getNomeDonoDoPet()
-                    + " - " + servico.getData() + " - R$ " + servico.getValorCobrado());
+                    + " - " + OutputUtils.formatarData(servico.getData())
+                    + " - R$ " + servico.getValorCobrado());
         }
     }
 
     private void servicosDoCliente() {
-        System.out.print("Digite o ID do cliente: ");
-        int idCliente = Integer.parseInt(teclado.next());
+        int idCliente = InputUtils.lerInteiro("Digite o ID do cliente: ");
         var cliente = controllerCliente.buscar(idCliente);
 
         if (cliente == null) {
@@ -114,7 +129,8 @@ public class UiCmdServicoPrestado {
         System.out.println("Servicos prestados para " + cliente.getNome() + ":");
         for (var servico : servicos) {
             System.out.println(servico.getId() + " - " + servico.getServico().getDescricao()
-                    + " - Pet: " + servico.getPet().getNome() + " - " + servico.getData()
+                    + " - Pet: " + servico.getPet().getNome() + " - "
+                    + OutputUtils.formatarData(servico.getData())
                     + " - R$ " + servico.getValorCobrado());
         }
         if (servicos.isEmpty()) {
@@ -123,14 +139,13 @@ public class UiCmdServicoPrestado {
     }
 
     private void buscar() {
-        System.out.print("Digite o ID do servico prestado que deseja buscar: ");
-        int id = Integer.parseInt(teclado.next());
+        int id = InputUtils.lerInteiro("Digite o ID do servico prestado que deseja buscar: ");
         var servico = controllerServicoPrestado.buscar(id);
 
         if (servico != null) {
             System.out.println("Servico prestado encontrado: " + servico.getServico().getDescricao()
                     + " - Pet: " + servico.getPet().getNome() + " - Dono: "
-                    + servico.getNomeDonoDoPet() + " - " + servico.getData()
+                    + servico.getNomeDonoDoPet() + " - " + OutputUtils.formatarData(servico.getData())
                     + " - R$ " + servico.getValorCobrado());
         } else {
             System.out.println("Servico prestado nao encontrado.");
@@ -154,13 +169,7 @@ public class UiCmdServicoPrestado {
             System.out.println("7 - Maior valor por cliente");
             System.out.println("8 - Servicos do cliente");
             System.out.println("9 - Voltar ao menu principal");
-            System.out.print("Escolha uma opcao: ");
-
-            try {
-                opcao = Integer.parseInt(teclado.next());
-            } catch (NumberFormatException e) {
-                opcao = 0;
-            }
+            opcao = InputUtils.lerInteiro("Escolha uma opcao: ");
 
             switch (opcao) {
                 case 1:

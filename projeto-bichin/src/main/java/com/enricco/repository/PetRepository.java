@@ -1,7 +1,9 @@
 package com.enricco.repository;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,6 +21,15 @@ public class PetRepository {
     public Pet buscarPorId(int id) {
         for (Pet pet : pets) {
             if (pet.getId() == id) {
+                return pet;
+            }
+        }
+        return null;
+    }
+
+    public Pet buscarPorClienteId(int idCliente) {
+        for (Pet pet : pets) {
+            if (pet.getCliente() != null && pet.getCliente().getId() == idCliente) {
                 return pet;
             }
         }
@@ -61,4 +72,26 @@ public class PetRepository {
             System.out.println("Erro ao carregar animais: " + e.getMessage());
         }
     }
+
+    public void salvarDados(String caminho) {
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(caminho))) {
+            escritor.write("id;nome;especie;raca;id_cliente;nascimento");
+            escritor.newLine();
+
+            for (Pet pet : pets) {
+                escritor.write(
+                    pet.getId() + ";" +
+                    pet.getNome() + ";" +
+                    pet.getEspecie() + ";" +
+                    pet.getRaca() + ";" +
+                    pet.getCliente().getId() + ";" +
+                    pet.getNascimento()
+                );
+                escritor.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar animais: " + e.getMessage());
+        }
+    }
+
 }

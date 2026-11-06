@@ -7,29 +7,57 @@ import com.enricco.model.Cliente;
 import com.enricco.model.Pet;
 import com.enricco.repository.ClienteRepository;
 import com.enricco.repository.PetRepository;
+import com.enricco.repository.ServicoPrestadoRepository;
 
 public class PetController {
     private PetRepository petRepository;
     private ClienteRepository clienteRepository;
+    private ServicoPrestadoRepository servicoPrestadoRepository;
 
-    public PetController(PetRepository petRepository, ClienteRepository clienteRepository) {
+    public PetController(PetRepository petRepository, ClienteRepository clienteRepository,
+            ServicoPrestadoRepository servicoPrestadoRepository) {
         this.petRepository = petRepository;
         this.clienteRepository = clienteRepository;
+        this.servicoPrestadoRepository = servicoPrestadoRepository;
     }
 
     public boolean remover(int id) {
-        if (petRepository.buscarPorId(id) != null) {
-            petRepository.remover(petRepository.buscarPorId(id));
-            return true;
+        Pet pet = petRepository.buscarPorId(id);
+        if (pet == null) {
+            return false;
         }
-        return false;
+
+        Cliente cliente = pet.getCliente();
+        servicoPrestadoRepository.removerPorPetId(id);
+        petRepository.remover(pet);
+
+        if (cliente != null && !temPetsAssociados(cliente.getId())) {
+            clienteRepository.remover(cliente);
+        }
+        return true;
     }
 
-    public void adicionar(int id, String nome, String especie, String raca, LocalDate dataNascimento, int idCliente) {
-        Cliente cliente = clienteRepository.buscarPorId(idCliente);
-        if (cliente != null) {
-            petRepository.adicionar(new Pet(id, nome, especie, raca, cliente, dataNascimento));
+    public boolean temServicosPrestados(int idPet) {
+        return servicoPrestadoRepository.listar().stream()
+                .anyMatch(servico -> servico.getPet() != null && servico.getPet().getId() == idPet);
+    }
+
+    private boolean temPetsAssociados(int idCliente) {
+        return petRepository.listar().stream()
+                .anyMatch(outroPet -> outroPet.getCliente() != null
+                        && outroPet.getCliente().getId() == idCliente);
+    }
+
+    public boolean adicionar(int idPet, String nomePet, String especie, String raca, LocalDate dataNascimento,
+            int idCliente, String nomeCliente, String telefoneCliente) {
+        if (petRepository.buscarPorId(idPet) != null || clienteRepository.buscarPorId(idCliente) != null) {
+            return false;
         }
+
+        Cliente cliente = new Cliente(idCliente, nomeCliente, telefoneCliente);
+        clienteRepository.adicionar(cliente);
+        petRepository.adicionar(new Pet(idPet, nomePet, especie, raca, cliente, dataNascimento));
+        return true;
     }
 
     public Pet buscar(int id) {

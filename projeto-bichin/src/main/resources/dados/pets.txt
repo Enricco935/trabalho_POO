@@ -1,1 +1,2 @@
 id;nome;especie;raca;id_cliente;nascimento
+1;Fred;Cachorro;dalmata;5;2026-11-05
