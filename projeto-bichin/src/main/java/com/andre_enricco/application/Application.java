@@ -1,8 +1,11 @@
 package com.andre_enricco.application;
+import javax.swing.SwingUtilities;
+
 import com.andre_enricco.config.CaminhosArquivo;
 import com.andre_enricco.controller.*;
 import com.andre_enricco.repository.*;
 import com.andre_enricco.visao.cmd.*;
+import com.andre_enricco.visao.gui.Ui_Gui;
 
 public class Application {
     private ClienteRepository clienteRepository;
@@ -12,7 +15,8 @@ public class Application {
 
     //centralizamos a montagem do sistema em uma unica classe, para facilitar a manutencao e a extensao do sistema
     public void iniciar() {
-        
+        SwingUtilities.invokeLater(() -> new Ui_Gui());
+
         /*
         * ========================================
         * AQUI DEVEMOS CRIAR OS OBJETOS DAS CLASSES DA CAMADA REPOSITORIES
