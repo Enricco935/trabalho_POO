@@ -1,9 +1,10 @@
 package com.andre_enricco.visao.gui.servicoPrestado;
 
-import com.andre_enricco.visao.gui.MenuVertical;
 import java.awt.event.ActionListener;
 
-public class MenuServicoPrestado extends MenuVertical {
+import com.andre_enricco.visao.gui.modelos.ModeloMenuVertical;
+
+public class MenuServicoPrestado extends ModeloMenuVertical {
 
     public MenuServicoPrestado(ActionListener[] acoes) {
         super(
@@ -15,8 +16,7 @@ public class MenuServicoPrestado extends MenuVertical {
                 "Animais do dono",
                 "Serviços por período",
                 "Maior valor por cliente",
-                "Serviços do cliente",
-                "Voltar ao menu principal"
+                "Serviços do cliente"
             },
             acoes
         );

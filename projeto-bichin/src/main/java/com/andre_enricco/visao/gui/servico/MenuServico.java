@@ -1,9 +1,10 @@
 package com.andre_enricco.visao.gui.servico;
 
-import com.andre_enricco.visao.gui.MenuVertical;
 import java.awt.event.ActionListener;
 
-public class MenuServico extends MenuVertical {
+import com.andre_enricco.visao.gui.modelos.ModeloMenuVertical;
+
+public class MenuServico extends ModeloMenuVertical {
 
     public MenuServico(ActionListener[] acoes) {
         super(
@@ -12,8 +13,7 @@ public class MenuServico extends MenuVertical {
                 "Buscar serviço",
                 "Adicionar serviço",
                 "Alterar serviço",
-                "Remover serviço",
-                "Voltar ao menu principal"
+                "Remover serviço"
             },
             acoes
         );

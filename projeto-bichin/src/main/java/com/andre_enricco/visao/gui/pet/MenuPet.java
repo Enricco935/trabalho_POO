@@ -1,9 +1,10 @@
 package com.andre_enricco.visao.gui.pet;
 
-import com.andre_enricco.visao.gui.MenuVertical;
 import java.awt.event.ActionListener;
 
-public class MenuPet extends MenuVertical {
+import com.andre_enricco.visao.gui.modelos.ModeloMenuVertical;
+
+public class MenuPet extends ModeloMenuVertical {
 
     public MenuPet(ActionListener[] acoes) {
         super(
@@ -12,8 +13,7 @@ public class MenuPet extends MenuVertical {
                 "Buscar pet",
                 "Adicionar pet",
                 "Alterar pet",
-                "Remover pet",
-                "Voltar ao menu principal"
+                "Remover pet"
             },
             acoes
         );

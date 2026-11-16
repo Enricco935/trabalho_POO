@@ -1,1 +1,2 @@
 id;nome;especie;raca;id_cliente;nascimento
+1;lua;cachorro;pincher;1;2026-10-10

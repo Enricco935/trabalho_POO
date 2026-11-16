@@ -1,9 +1,10 @@
 package com.andre_enricco.visao.gui.cliente;
 
-import com.andre_enricco.visao.gui.MenuVertical;
 import java.awt.event.ActionListener;
 
-public class MenuCliente extends MenuVertical {
+import com.andre_enricco.visao.gui.modelos.ModeloMenuVertical;
+
+public class MenuCliente extends ModeloMenuVertical {
 
     public MenuCliente(ActionListener[] acoes) {
 
@@ -12,8 +13,7 @@ public class MenuCliente extends MenuVertical {
                 "Listar clientes",
                 "Buscar cliente",
                 "Alterar cliente",
-                "Remover cliente",
-                "Voltar ao menu principal"
+                "Remover cliente"
             },
             acoes
         );

@@ -1,12 +1,12 @@
-package com.andre_enricco.visao.gui;
+package com.andre_enricco.visao.gui.modelos;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class MenuVertical extends JPanel {
+public class ModeloMenuVertical extends JPanel {
 
-    public MenuVertical(String[] opcoes, ActionListener[] acoes) {
+    public ModeloMenuVertical(String[] opcoes, ActionListener[] acoes) {
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 

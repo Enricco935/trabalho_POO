@@ -1,8 +1,10 @@
-package com.andre_enricco.visao.gui;
+package com.andre_enricco.visao.gui.telaPrincipal;
 
 import java.awt.event.ActionListener;
 
-public class MenuPrincipal extends MenuVertical {
+import com.andre_enricco.visao.gui.modelos.ModeloMenuVertical;
+
+public class MenuPrincipal extends ModeloMenuVertical {
 
     public MenuPrincipal(ActionListener[] acoes) {
 
