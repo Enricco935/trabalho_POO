@@ -82,7 +82,6 @@ public class Application {
 
         // UICmd.iniciar();
 
-        encerrar();
     }
 
     public void encerrar() {

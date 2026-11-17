@@ -31,7 +31,23 @@ public class ModeloFormulario extends JPanel {
         return campos.get(indice).getText();
     }
 
+    public void setValor(int indice, String valor) {
+        campos.get(indice).setText(valor);
+    }
+
     public JButton getBotao() {
         return botao;
+    }
+
+    public void limparCampos(){
+        for (int i = 0; i < campos.size(); i++) {
+            campos.get(i).setText("");
+        }
+    }
+
+    public void setCamposEditaveis(boolean editaveis) {
+        for (JTextField campo : campos) {
+            campo.setEditable(editaveis);
+        }
     }
 }

@@ -16,6 +16,7 @@ public class ClienteController {
     }
 
     public boolean remover(int id) {
+        
         if (clienteRepository.buscarPorId(id) != null && !temPetsAssociados(id)) {
             clienteRepository.remover(clienteRepository.buscarPorId(id));
             return true;

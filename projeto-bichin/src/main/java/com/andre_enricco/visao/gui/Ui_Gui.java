@@ -8,10 +8,8 @@ import com.andre_enricco.visao.gui.pet.*;
 import com.andre_enricco.visao.gui.servico.*;
 import com.andre_enricco.visao.gui.servicoPrestado.*;
 import com.andre_enricco.visao.gui.telaPrincipal.*;
-import com.andre_enricco.controller.ClienteController;
-import com.andre_enricco.controller.PetController;
-import com.andre_enricco.controller.ServicoController;
-import com.andre_enricco.controller.ServicoPrestadoController;
+import com.andre_enricco.controller.*;
+
 
 public class Ui_Gui extends JFrame {
 
@@ -48,41 +46,41 @@ public class Ui_Gui extends JFrame {
             new java.awt.event.ActionListener[] {
                 e -> mostrarTela("tabela-cliente"),
                 e -> mostrarTela("busca-cliente"),
-                e -> mostrarAcao("Alterar cliente"),
-                e -> mostrarAcao("Remover cliente"),
+                e -> mostrarTela("alterar-cliente"),
+                e -> mostrarTela("excluir-cliente"),
             }
         );
 
         MenuPet menuPet = new MenuPet(
             new java.awt.event.ActionListener[] {
                 e -> mostrarTela("tabela-pets"),
-                e -> mostrarAcao("Buscar pet"),
-                e -> mostrarAcao("Adicionar pet"),
-                e -> mostrarAcao("Alterar pet"),
-                e -> mostrarAcao("Remover pet"),
+                e -> mostrarTela("busca-pet"),
+                e -> mostrarTela("adicionar-pet"),
+                e -> mostrarTela("alterar-pet"),
+                e -> mostrarTela("excluir-pet"),
             }
         );
 
         MenuServico menuServico = new MenuServico(
             new java.awt.event.ActionListener[] {
                 e -> mostrarTela("tabela-servicos"),
-                e -> mostrarAcao("Buscar serviço"),
-                e -> mostrarAcao("Adicionar serviço"),
-                e -> mostrarAcao("Alterar serviço"),
-                e -> mostrarAcao("Remover serviço"),
+                e -> mostrarTela("busca-servico"),
+                e -> mostrarTela("adicionar-servico"),
+                e -> mostrarTela("alterar-servico"),
+                e -> mostrarTela("excluir-servico"),
             }
         );
 
         MenuServicoPrestado menuServicoPrestado = new MenuServicoPrestado(
             new java.awt.event.ActionListener[] {
                 e -> mostrarTela("tabela-servicos-prestados"),
-                e -> mostrarAcao("Buscar serviço prestado"),
-                e -> mostrarAcao("Adicionar serviço prestado"),
-                e -> mostrarAcao("Remover serviço prestado"),
-                e -> mostrarAcao("Animais do dono"),
-                e -> mostrarAcao("Serviços por período"),
-                e -> mostrarAcao("Maior valor por cliente"),
-                e -> mostrarAcao("Serviços do cliente"),
+                e -> mostrarTela("busca-servico-prestado"),
+                e -> mostrarTela("adicionar-servico-prestado"),
+                e -> mostrarTela("excluir-servico-prestado"),
+                e -> mostrarTela("animais-do-dono"),
+                e -> mostrarTela("servicos-por-periodo"),
+                e -> mostrarTela("maior-valor-por-cliente"),
+                e -> mostrarTela("servicos-do-cliente"),
             }
         );
 
@@ -91,7 +89,32 @@ public class Ui_Gui extends JFrame {
         ListaServicos tabelaServicos = new ListaServicos(servicoController);
         ListaServicosPrestados tabelaServicosPrestados = new ListaServicosPrestados(servicoPrestadoController);
 
+        AdicionarPet adicionarPet = new AdicionarPet(petController);
+        AdicionarServico adicionarServico = new AdicionarServico(servicoController);
+        AdicionarServicoPrestado adicionarServicoPrestado =
+                new AdicionarServicoPrestado(servicoPrestadoController);
         BuscaCliente buscaCliente = new BuscaCliente(clienteController);
+        BuscaPet buscaPet = new BuscaPet(petController);
+        BuscaServico buscaServico = new BuscaServico(servicoController);
+        BuscaServicoPrestado buscaServicoPrestado = new BuscaServicoPrestado(servicoPrestadoController);
+        AnimaisDoDono animaisDoDono = new AnimaisDoDono(servicoPrestadoController);
+        ServicosPorPeriodo servicosPorPeriodo = new ServicosPorPeriodo(servicoPrestadoController);
+        MaiorValorPorCliente maiorValorPorCliente =
+                new MaiorValorPorCliente(clienteController, servicoPrestadoController);
+        ServicosDoCliente servicosDoCliente =
+                new ServicosDoCliente(clienteController, servicoPrestadoController);
+        
+        AlterarCliente alterarCliente = new AlterarCliente(clienteController);
+        AlterarPet alterarPet = new AlterarPet(petController);
+        AlterarServico alterarServico = new AlterarServico(servicoController);
+        
+        ExcluirCliente excluirCliente = new ExcluirCliente(clienteController);
+        ExcluirPet excluirPet = new ExcluirPet(petController);
+        ExcluirServico excluirServico = new ExcluirServico(servicoController);
+        ExcluirServicoPrestado excluirServicoPrestado =
+                new ExcluirServicoPrestado(servicoPrestadoController);
+        
+        
         // Registrando as telas
 
         painelPrincipal.add(menuPrincipal, "principal");
@@ -99,11 +122,32 @@ public class Ui_Gui extends JFrame {
         painelPrincipal.add(criarTelaSecundaria(menuPet), "pets");
         painelPrincipal.add(criarTelaSecundaria(menuServico), "servicos");
         painelPrincipal.add(criarTelaSecundaria(menuServicoPrestado), "servicos-prestados");
+        
         painelPrincipal.add(criarTelaSecundaria(tabelaCliente), "tabela-cliente");
         painelPrincipal.add(criarTelaSecundaria(tabelaPets), "tabela-pets");
         painelPrincipal.add(criarTelaSecundaria(tabelaServicos), "tabela-servicos");
         painelPrincipal.add(criarTelaSecundaria(tabelaServicosPrestados), "tabela-servicos-prestados");
+        painelPrincipal.add(criarTelaSecundaria(adicionarPet), "adicionar-pet");
+        painelPrincipal.add(criarTelaSecundaria(adicionarServico), "adicionar-servico");
+        painelPrincipal.add(criarTelaSecundaria(adicionarServicoPrestado), "adicionar-servico-prestado");
+        
         painelPrincipal.add(criarTelaSecundaria(buscaCliente), "busca-cliente");
+        painelPrincipal.add(criarTelaSecundaria(buscaPet), "busca-pet");
+        painelPrincipal.add(criarTelaSecundaria(buscaServico), "busca-servico");
+        painelPrincipal.add(criarTelaSecundaria(buscaServicoPrestado), "busca-servico-prestado");
+        painelPrincipal.add(criarTelaSecundaria(animaisDoDono), "animais-do-dono");
+        painelPrincipal.add(criarTelaSecundaria(servicosPorPeriodo), "servicos-por-periodo");
+        painelPrincipal.add(criarTelaSecundaria(maiorValorPorCliente), "maior-valor-por-cliente");
+        painelPrincipal.add(criarTelaSecundaria(servicosDoCliente), "servicos-do-cliente");
+        
+        painelPrincipal.add(criarTelaSecundaria(alterarCliente),"alterar-cliente");
+        painelPrincipal.add(criarTelaSecundaria(alterarPet), "alterar-pet");
+        painelPrincipal.add(criarTelaSecundaria(alterarServico), "alterar-servico");
+
+        painelPrincipal.add(criarTelaSecundaria(excluirCliente), "excluir-cliente");
+        painelPrincipal.add(criarTelaSecundaria(excluirPet), "excluir-pet");
+        painelPrincipal.add(criarTelaSecundaria(excluirServico), "excluir-servico");
+        painelPrincipal.add(criarTelaSecundaria(excluirServicoPrestado), "excluir-servico-prestado");
 
         add(painelPrincipal);
 
