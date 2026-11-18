@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import com.andre_enricco.controller.ClienteController;
 import com.andre_enricco.model.Cliente;
+import com.andre_enricco.util.FormatoUtils;
 import com.andre_enricco.visao.gui.modelos.ModeloFormulario;
 
 public class AlterarCliente extends JPanel {
@@ -64,6 +65,11 @@ public class AlterarCliente extends JPanel {
 
         if (nome.isEmpty() || telefone.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha nome e telefone.");
+            return;
+        }
+
+        if (!FormatoUtils.telefoneValido(telefone)) {
+            JOptionPane.showMessageDialog(this, "Use o telefone no formato (dd) ddddd-dddd.");
             return;
         }
 

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import com.andre_enricco.controller.ServicoPrestadoController;
 import com.andre_enricco.model.ServicoPrestado;
+import com.andre_enricco.util.FormatoUtils;
 import com.andre_enricco.visao.gui.modelos.ModeloFormulario;
 import com.andre_enricco.visao.gui.modelos.ModeloTabelaGenerica;
 
@@ -24,8 +25,8 @@ public class ServicosPorPeriodo extends JPanel {
         setLayout(new BorderLayout(10, 10));
 
         formulario = new ModeloFormulario(new String[] {
-            "Data inicial (AAAA-MM-DD):",
-            "Data final (AAAA-MM-DD):"
+            "Data inicial (dd/MM/aaaa):",
+            "Data final (dd/MM/aaaa):"
         }, "Buscar serviços");
         tabela = new ModeloTabelaGenerica(new String[] {
             "ID", "Serviço", "Data", "Valor cobrado", "Pet", "Dono"
@@ -40,8 +41,8 @@ public class ServicosPorPeriodo extends JPanel {
         tabela.limparLinhas();
 
         try {
-            LocalDate dataInicio = LocalDate.parse(formulario.getValor(0).trim());
-            LocalDate dataFim = LocalDate.parse(formulario.getValor(1).trim());
+            LocalDate dataInicio = FormatoUtils.converterData(formulario.getValor(0));
+            LocalDate dataFim = FormatoUtils.converterData(formulario.getValor(1));
 
             if (dataInicio.isAfter(dataFim)) {
                 JOptionPane.showMessageDialog(this, "A data inicial deve ser anterior à data final.");
@@ -58,7 +59,7 @@ public class ServicosPorPeriodo extends JPanel {
                 adicionarLinha(servico);
             }
         } catch (DateTimeParseException erro) {
-            JOptionPane.showMessageDialog(this, "Use as datas no formato AAAA-MM-DD.");
+            JOptionPane.showMessageDialog(this, "Use as datas no formato dd/MM/aaaa.");
         }
     }
 

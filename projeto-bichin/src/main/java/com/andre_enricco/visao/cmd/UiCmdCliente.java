@@ -46,7 +46,7 @@ public class UiCmdCliente {
         int id = InputUtils.lerInteiro("Digite o ID do cliente que deseja alterar: ");
         if (controllerCliente.buscar(id) != null) {
             String nome = InputUtils.lerTexto("Digite o novo nome do cliente: ");
-            String telefone = InputUtils.lerTelefone("Digite o novo telefone do cliente (dd) ddddd-ddddd: ");
+            String telefone = InputUtils.lerTelefone("Digite o novo telefone do cliente (dd) ddddd-dddd: ");
             controllerCliente.alterar(id, nome, telefone);
             System.out.println("Cliente alterado com sucesso.");
         } else {

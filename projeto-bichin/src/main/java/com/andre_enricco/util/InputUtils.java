@@ -1,9 +1,7 @@
 package com.andre_enricco.util;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.format.ResolverStyle;
 import java.util.Scanner;
 
 public class InputUtils {
@@ -12,16 +10,13 @@ public class InputUtils {
 
     public static LocalDate lerData(String mensagem) {
 
-        DateTimeFormatter formatter =
-            DateTimeFormatter.ofPattern("dd/MM/uuuu").withResolverStyle(ResolverStyle.STRICT);
-
         while (true) {
             System.out.print(mensagem);
 
             String entrada = scanner.nextLine().trim();
 
             try {
-                return LocalDate.parse(entrada, formatter);
+                return FormatoUtils.converterData(entrada);
 
             } catch (DateTimeParseException e) {
                 System.out.println("Data inválida. Use o formato dd/MM/aaaa e tente novamente.");
@@ -37,10 +32,10 @@ public class InputUtils {
     public static String lerTelefone(String mensagem) {
         while (true) {
             String telefone = lerTexto(mensagem);
-            if (telefone.matches("\\(\\d{2}\\) \\d{5}-\\d{4}")) {
+            if (FormatoUtils.telefoneValido(telefone)) {
                 return telefone;
             }
-            System.out.println("Telefone invalido. Use o formato (dd) ddddd-ddddd e tente novamente.");
+            System.out.println("Telefone inválido. Use o formato (dd) ddddd-dddd e tente novamente.");
         }
     }
 

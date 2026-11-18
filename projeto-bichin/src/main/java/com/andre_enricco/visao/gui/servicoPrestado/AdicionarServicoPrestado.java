@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.andre_enricco.controller.ServicoPrestadoController;
+import com.andre_enricco.util.FormatoUtils;
 import com.andre_enricco.visao.gui.modelos.ModeloFormulario;
 
 public class AdicionarServicoPrestado extends JPanel {
@@ -21,7 +22,7 @@ public class AdicionarServicoPrestado extends JPanel {
 
         formulario = new ModeloFormulario(new String[] {
             "ID do serviço prestado:",
-            "Data (AAAA-MM-DD):",
+            "Data (dd/MM/aaaa):",
             "ID do pet:",
             "ID do serviço:",
             "Valor cobrado (use ponto para decimais):"
@@ -47,7 +48,7 @@ public class AdicionarServicoPrestado extends JPanel {
         try {
             boolean cadastrado = controller.adicionar(
                     Integer.parseInt(idTexto),
-                    LocalDate.parse(dataTexto),
+                    FormatoUtils.converterData(dataTexto),
                     Integer.parseInt(idPetTexto),
                     Integer.parseInt(idServicoTexto),
                     Double.parseDouble(valorTexto));
@@ -66,7 +67,7 @@ public class AdicionarServicoPrestado extends JPanel {
                     this,
                     "IDs precisam ser números e o valor deve usar ponto para decimais.");
         } catch (DateTimeParseException erro) {
-            JOptionPane.showMessageDialog(this, "Use a data no formato AAAA-MM-DD.");
+            JOptionPane.showMessageDialog(this, "Use a data no formato dd/MM/aaaa.");
         }
     }
 }

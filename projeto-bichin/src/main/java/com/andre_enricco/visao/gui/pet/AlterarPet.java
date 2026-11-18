@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import com.andre_enricco.controller.PetController;
 import com.andre_enricco.model.Pet;
+import com.andre_enricco.util.FormatoUtils;
 import com.andre_enricco.visao.gui.modelos.ModeloFormulario;
 
 public class AlterarPet extends JPanel {
@@ -26,7 +27,7 @@ public class AlterarPet extends JPanel {
                 "Buscar");
 
         formularioEdicao = new ModeloFormulario(
-                new String[] { "Nome:", "Espécie:", "Raça:", "Nascimento (AAAA-MM-DD):" },
+                new String[] { "Nome:", "Espécie:", "Raça:", "Nascimento (dd/MM/aaaa):" },
                 "Salvar alterações");
 
         formularioBusca.getBotao().addActionListener(e -> buscarPet());
@@ -51,7 +52,7 @@ public class AlterarPet extends JPanel {
             formularioEdicao.setValor(0, pet.getNome());
             formularioEdicao.setValor(1, pet.getEspecie());
             formularioEdicao.setValor(2, pet.getRaca());
-            formularioEdicao.setValor(3, pet.getNascimento().toString());
+            formularioEdicao.setValor(3, FormatoUtils.formatarData(pet.getNascimento()));
 
         } catch (NumberFormatException erro) {
             JOptionPane.showMessageDialog(this, "Digite um ID válido.");
@@ -70,13 +71,13 @@ public class AlterarPet extends JPanel {
         }
 
         try {
-            LocalDate nascimento = LocalDate.parse(textoNascimento);
+            LocalDate nascimento = FormatoUtils.converterData(textoNascimento);
             controller.alterar(idPetSelecionado, nome, especie, raca, nascimento);
             JOptionPane.showMessageDialog(this, "Pet alterado com sucesso.");
             formularioBusca.limparCampos();
             formularioEdicao.limparCampos();
         } catch (DateTimeParseException erro) {
-            JOptionPane.showMessageDialog(this, "Use a data no formato AAAA-MM-DD.");
+            JOptionPane.showMessageDialog(this, "Use a data no formato dd/MM/aaaa.");
         }
     }
 }

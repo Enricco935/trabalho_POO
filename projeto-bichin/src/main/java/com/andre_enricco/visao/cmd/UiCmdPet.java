@@ -44,7 +44,7 @@ public class UiCmdPet {
         }
 
         String nomeCliente = InputUtils.lerTexto("Digite o nome do cliente: ");
-        String telefoneCliente = InputUtils.lerTelefone("Digite o telefone do cliente (dd) ddddd-ddddd: ");
+        String telefoneCliente = InputUtils.lerTelefone("Digite o telefone do cliente (dd) ddddd-dddd: ");
 
         if (controllerPet.adicionar(idPet, nomePet, especie, raca, nascimento,
                 idCliente, nomeCliente, telefoneCliente)) {

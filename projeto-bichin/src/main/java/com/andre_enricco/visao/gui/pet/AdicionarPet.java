@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.andre_enricco.controller.PetController;
+import com.andre_enricco.util.FormatoUtils;
 import com.andre_enricco.visao.gui.modelos.ModeloFormulario;
 
 public class AdicionarPet extends JPanel {
@@ -24,7 +25,7 @@ public class AdicionarPet extends JPanel {
             "Nome do pet:",
             "Espécie:",
             "Raça:",
-            "Nascimento (AAAA-MM-DD):",
+            "Nascimento (dd/MM/aaaa):",
             "ID do cliente:",
             "Nome do cliente:",
             "Telefone do cliente:"
@@ -51,13 +52,18 @@ public class AdicionarPet extends JPanel {
             return;
         }
 
+        if (!FormatoUtils.telefoneValido(telefoneCliente)) {
+            JOptionPane.showMessageDialog(this, "Use o telefone no formato (dd) ddddd-dddd.");
+            return;
+        }
+
         try {
             boolean cadastrado = controller.adicionar(
                     Integer.parseInt(idPetTexto),
                     nomePet,
                     especie,
                     raca,
-                    LocalDate.parse(nascimentoTexto),
+                    FormatoUtils.converterData(nascimentoTexto),
                     Integer.parseInt(idClienteTexto),
                     nomeCliente,
                     telefoneCliente);
@@ -74,7 +80,7 @@ public class AdicionarPet extends JPanel {
         } catch (NumberFormatException erro) {
             JOptionPane.showMessageDialog(this, "Os IDs do pet e do cliente precisam ser números.");
         } catch (DateTimeParseException erro) {
-            JOptionPane.showMessageDialog(this, "Use a data no formato AAAA-MM-DD.");
+            JOptionPane.showMessageDialog(this, "Use a data no formato dd/MM/aaaa.");
         }
     }
 }
