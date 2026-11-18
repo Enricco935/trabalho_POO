@@ -11,7 +11,8 @@ public class MenuPet extends ModeloMenuVertical {
             new String[] {
                 "Listar pets",
                 "Buscar pet",
-                "Adicionar pet",
+                "Adicionar pet a cliente existente",
+                "Adicionar pet com novo cliente",
                 "Alterar pet",
                 "Remover pet"
             },

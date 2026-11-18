@@ -60,6 +60,29 @@ public class PetController {
         return true;
     }
 
+    public boolean adicionarAClienteExistente(int idPet, String nomePet, String especie, String raca,
+            LocalDate dataNascimento, int idCliente) {
+        Cliente cliente = clienteRepository.buscarPorId(idCliente);
+        if (petRepository.buscarPorId(idPet) != null || cliente == null) {
+            return false;
+        }
+
+        petRepository.adicionar(new Pet(idPet, nomePet, especie, raca, cliente, dataNascimento));
+        return true;
+    }
+
+    public boolean adicionarComNovoCliente(int idPet, String nomePet, String especie, String raca,
+            LocalDate dataNascimento, int idCliente, String nomeCliente, String telefoneCliente) {
+        if (petRepository.buscarPorId(idPet) != null || clienteRepository.buscarPorId(idCliente) != null) {
+            return false;
+        }
+
+        Cliente cliente = new Cliente(idCliente, nomeCliente, telefoneCliente);
+        clienteRepository.adicionar(cliente);
+        petRepository.adicionar(new Pet(idPet, nomePet, especie, raca, cliente, dataNascimento));
+        return true;
+    }
+
     public Pet buscar(int id) {
         return petRepository.buscarPorId(id);
     }

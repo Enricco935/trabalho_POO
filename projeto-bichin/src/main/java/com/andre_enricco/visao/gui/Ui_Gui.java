@@ -54,7 +54,8 @@ public class Ui_Gui extends JFrame {
                 new java.awt.event.ActionListener[] {
                         e -> mostrarTela("tabela-pets"),
                         e -> mostrarTela("busca-pet"),
-                        e -> mostrarTela("adicionar-pet"),
+                        e -> mostrarTela("adicionar-pet-cliente-existente"),
+                        e -> mostrarTela("adicionar-pet-novo-cliente"),
                         e -> mostrarTela("alterar-pet"),
                         e -> mostrarTela("excluir-pet"),
                 });
@@ -90,7 +91,9 @@ public class Ui_Gui extends JFrame {
         telasAtualizaveis.put("tabela-servicos", tabelaServicos);
         telasAtualizaveis.put("tabela-servicos-prestados", tabelaServicosPrestados);
 
-        AdicionarPet adicionarPet = new AdicionarPet(petController);
+        AdicionarPetAClienteExistente adicionarPetAClienteExistente =
+                new AdicionarPetAClienteExistente(petController);
+        AdicionarPetANovoCliente adicionarPetANovoCliente = new AdicionarPetANovoCliente(petController);
         AdicionarServico adicionarServico = new AdicionarServico(servicoController);
         AdicionarServicoPrestado adicionarServicoPrestado = new AdicionarServicoPrestado(servicoPrestadoController);
         BuscaCliente buscaCliente = new BuscaCliente(clienteController);
@@ -123,7 +126,8 @@ public class Ui_Gui extends JFrame {
         painelPrincipal.add(criarTelaSecundaria(tabelaPets), "tabela-pets");
         painelPrincipal.add(criarTelaSecundaria(tabelaServicos), "tabela-servicos");
         painelPrincipal.add(criarTelaSecundaria(tabelaServicosPrestados), "tabela-servicos-prestados");
-        painelPrincipal.add(criarTelaSecundaria(adicionarPet), "adicionar-pet");
+        painelPrincipal.add(criarTelaSecundaria(adicionarPetAClienteExistente), "adicionar-pet-cliente-existente");
+        painelPrincipal.add(criarTelaSecundaria(adicionarPetANovoCliente), "adicionar-pet-novo-cliente");
         painelPrincipal.add(criarTelaSecundaria(adicionarServico), "adicionar-servico");
         painelPrincipal.add(criarTelaSecundaria(adicionarServicoPrestado), "adicionar-servico-prestado");
 
