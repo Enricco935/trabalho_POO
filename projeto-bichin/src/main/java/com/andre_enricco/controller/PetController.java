@@ -3,99 +3,51 @@ package com.andre_enricco.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import com.andre_enricco.model.Cliente;
 import com.andre_enricco.model.Pet;
-import com.andre_enricco.repository.ClienteRepository;
-import com.andre_enricco.repository.PetRepository;
-import com.andre_enricco.repository.ServicoPrestadoRepository;
+import com.andre_enricco.service.PetService;
 
 public class PetController {
-    private PetRepository petRepository;
-    private ClienteRepository clienteRepository;
-    private ServicoPrestadoRepository servicoPrestadoRepository;
+    private final PetService petService;
 
-    public PetController(PetRepository petRepository, ClienteRepository clienteRepository,
-            ServicoPrestadoRepository servicoPrestadoRepository) {
-        this.petRepository = petRepository;
-        this.clienteRepository = clienteRepository;
-        this.servicoPrestadoRepository = servicoPrestadoRepository;
+    public PetController(PetService petService) {
+        this.petService = petService;
     }
 
     public boolean remover(int id) {
-        Pet pet = petRepository.buscarPorId(id);
-        if (pet == null) {
-            return false;
-        }
-
-        Cliente cliente = pet.getCliente();
-        servicoPrestadoRepository.removerPorPetId(id);
-        petRepository.remover(pet);
-
-        if (cliente != null && !temPetsAssociados(cliente.getId())) {
-            clienteRepository.remover(cliente);
-        }
-        return true;
+        return petService.remover(id);
     }
 
     public boolean temServicosPrestados(int idPet) {
-        return servicoPrestadoRepository.listar().stream()
-                .anyMatch(servico -> servico.getPet() != null && servico.getPet().getId() == idPet);
-    }
-
-    private boolean temPetsAssociados(int idCliente) {
-        return petRepository.listar().stream()
-                .anyMatch(outroPet -> outroPet.getCliente() != null
-                        && outroPet.getCliente().getId() == idCliente);
+        return petService.temServicosPrestados(idPet);
     }
 
     public boolean adicionar(int idPet, String nomePet, String especie, String raca, LocalDate dataNascimento,
             int idCliente, String nomeCliente, String telefoneCliente) {
-        if (petRepository.buscarPorId(idPet) != null || clienteRepository.buscarPorId(idCliente) != null) {
-            return false;
-        }
-
-        Cliente cliente = new Cliente(idCliente, nomeCliente, telefoneCliente);
-        clienteRepository.adicionar(cliente);
-        petRepository.adicionar(new Pet(idPet, nomePet, especie, raca, cliente, dataNascimento));
-        return true;
+        return petService.adicionar(idPet, nomePet, especie, raca, dataNascimento,
+                idCliente, nomeCliente, telefoneCliente);
     }
 
     public boolean adicionarAClienteExistente(int idPet, String nomePet, String especie, String raca,
             LocalDate dataNascimento, int idCliente) {
-        Cliente cliente = clienteRepository.buscarPorId(idCliente);
-        if (petRepository.buscarPorId(idPet) != null || cliente == null) {
-            return false;
-        }
-
-        petRepository.adicionar(new Pet(idPet, nomePet, especie, raca, cliente, dataNascimento));
-        return true;
+        return petService.adicionarAClienteExistente(idPet, nomePet, especie, raca,
+                dataNascimento, idCliente);
     }
 
     public boolean adicionarComNovoCliente(int idPet, String nomePet, String especie, String raca,
             LocalDate dataNascimento, int idCliente, String nomeCliente, String telefoneCliente) {
-        if (petRepository.buscarPorId(idPet) != null || clienteRepository.buscarPorId(idCliente) != null) {
-            return false;
-        }
-
-        Cliente cliente = new Cliente(idCliente, nomeCliente, telefoneCliente);
-        clienteRepository.adicionar(cliente);
-        petRepository.adicionar(new Pet(idPet, nomePet, especie, raca, cliente, dataNascimento));
-        return true;
+        return petService.adicionarComNovoCliente(idPet, nomePet, especie, raca, dataNascimento,
+                idCliente, nomeCliente, telefoneCliente);
     }
 
     public Pet buscar(int id) {
-        return petRepository.buscarPorId(id);
+        return petService.buscar(id);
     }
 
     public void alterar(int id, String nome, String especie, String raca, LocalDate dataNascimento) {
-        Pet pet = petRepository.buscarPorId(id);
-        if (pet != null) {
-            petRepository.alterar(new Pet(
-                    pet.getId(), nome, especie, raca, pet.getCliente(), dataNascimento));
-        }
+        petService.alterar(id, nome, especie, raca, dataNascimento);
     }
 
     public ArrayList<Pet> listar() {
-        return petRepository.listar();
+        return petService.listar();
     }
 }

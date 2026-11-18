@@ -58,6 +58,9 @@ public class Pet {
     public void setNascimento(LocalDate nascimento) {
         this.nascimento = nascimento;
     }
+    public int getDonoId(){
+        return cliente.getId();
+    }
     
     @Override
     public int hashCode() {

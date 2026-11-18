@@ -7,84 +7,52 @@ import com.andre_enricco.model.Cliente;
 import com.andre_enricco.model.Pet;
 import com.andre_enricco.model.Servico;
 import com.andre_enricco.model.ServicoPrestado;
-import com.andre_enricco.repository.PetRepository;
-import com.andre_enricco.repository.ServicoPrestadoRepository;
-import com.andre_enricco.repository.ServicoRepository;
+import com.andre_enricco.service.ServicoPrestadoService;
 
 public class ServicoPrestadoController {
-    private PetRepository petRepository;
-    private ServicoRepository servicoRepository;
-    private ServicoPrestadoRepository servicoPrestadoRepository;
+    private final ServicoPrestadoService servicoPrestadoService;
 
-    public ServicoPrestadoController(PetRepository petRepository, ServicoRepository servicoRepository, ServicoPrestadoRepository servicoPrestadoRepository) {
-        this.petRepository = petRepository;
-        this.servicoRepository = servicoRepository;
-        this.servicoPrestadoRepository = servicoPrestadoRepository;
+    public ServicoPrestadoController(ServicoPrestadoService servicoPrestadoService) {
+        this.servicoPrestadoService = servicoPrestadoService;
     }
 
     public double maiorValorPorCliente(Cliente cliente) {
-        double maiorValor = 0.0;
-        for (ServicoPrestado servicoPrestado : servicoPrestadoRepository.listar()) {
-            if (servicoPrestado.getDonoDoPet().equals(cliente)) {
-                double valorServico = servicoPrestado.getValorServico();
-                if (valorServico > maiorValor) {
-                    maiorValor = valorServico;
-                }
-            }
-        }
-        return maiorValor;
+        return servicoPrestadoService.maiorValorPorCliente(cliente);
     }
 
     public boolean removerServicoPrestado(int id) {
-        ServicoPrestado servicoPrestado = servicoPrestadoRepository.buscarPorId(id);
-        if (servicoPrestado != null) {
-            servicoPrestadoRepository.remover(servicoPrestado);
-            return true;
-        }
-        return false;
+        return servicoPrestadoService.removerServicoPrestado(id);
     }
 
     public ServicoPrestado buscar(int id) {
-        return servicoPrestadoRepository.buscarPorId(id);
+        return servicoPrestadoService.buscar(id);
     }
 
     public Servico buscarServico(int id) {
-        return servicoRepository.buscarPorId(id);
+        return servicoPrestadoService.buscarServico(id);
     }
 
     public ArrayList<Pet> buscarBichosPorNomeDono(String nomeDono) {
-        return servicoPrestadoRepository.buscarBichosPorNomeDono(nomeDono);
+        return servicoPrestadoService.buscarBichosPorNomeDono(nomeDono);
     }
 
     public ArrayList<ServicoPrestado> buscarPorPeriodo(LocalDate dataInicio, LocalDate dataFim) {
-        return servicoPrestadoRepository.buscarPorPeriodo(dataInicio, dataFim);
+        return servicoPrestadoService.buscarPorPeriodo(dataInicio, dataFim);
     }
 
     public boolean adicionar(int id, LocalDate data, int idPet, int idServico, double valor) {
-        if (servicoPrestadoRepository.buscarPorId(id) != null) {
-            return false;
-        }
-
-        Pet pet = petRepository.buscarPorId(idPet);
-        Servico servico = servicoRepository.buscarPorId(idServico);
-        if (pet == null || servico == null) {
-            return false;
-        }
-
-        servicoPrestadoRepository.adicionar(new ServicoPrestado(id, servico, data, valor, pet));
-        return true;
+        return servicoPrestadoService.adicionar(id, data, idPet, idServico, valor);
     }
 
     public Pet buscarPet(int id) {
-        return petRepository.buscarPorId(id);
+        return servicoPrestadoService.buscarPet(id);
     }
 
     public ArrayList<ServicoPrestado> buscarPorCliente(Cliente cliente) {
-        return servicoPrestadoRepository.buscarPorCliente(cliente);
+        return servicoPrestadoService.buscarPorCliente(cliente);
     }
 
     public ArrayList<ServicoPrestado> listar() {
-        return servicoPrestadoRepository.listar();
+        return servicoPrestadoService.listar();
     }
-
 }

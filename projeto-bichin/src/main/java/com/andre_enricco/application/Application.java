@@ -4,6 +4,10 @@ import javax.swing.SwingUtilities;
 import com.andre_enricco.config.CaminhosArquivo;
 import com.andre_enricco.controller.*;
 import com.andre_enricco.repository.*;
+import com.andre_enricco.service.ClienteService;
+import com.andre_enricco.service.PetService;
+import com.andre_enricco.service.ServicoService;
+import com.andre_enricco.service.ServicoPrestadoService;
 import com.andre_enricco.visao.cmd.*;
 import com.andre_enricco.visao.gui.Ui_Gui;
 
@@ -16,7 +20,7 @@ public class Application {
         * ========================================
         * AQUI DEVEMOS CRIAR OS OBJETOS DAS CLASSES DA CAMADA REPOSITORIES
         *Lembre-se, essa camada representa a persistência dos dados.
-        *As classes desse nível serão injetadas na camada de controller
+        *As classes desse nível serão injetadas na camada de service quando ela existir
         * ========================================
         */
         ClienteRepository clienteRepository = new ClienteRepository();
@@ -45,10 +49,16 @@ public class Application {
         *Logo abaixo, as classes dessa camada serão injetadas nas classes da camada de visão.
         * ========================================
         */
-        ClienteController clienteController = new ClienteController(clienteRepository, petRepository);
-        PetController petController = new PetController(petRepository, clienteRepository, servicoPrestadoRepository);
-        ServicoController servicoController = new ServicoController(servicoRepository, servicoPrestadoRepository);
-        ServicoPrestadoController servicoPrestadoController = new ServicoPrestadoController(petRepository, servicoRepository, servicoPrestadoRepository);
+        ClienteService clienteService = new ClienteService(clienteRepository, petRepository);
+        ClienteController clienteController = new ClienteController(clienteService);
+        PetService petService = new PetService(petRepository, clienteRepository, servicoPrestadoRepository);
+        PetController petController = new PetController(petService);
+        ServicoService servicoService = new ServicoService(servicoRepository, servicoPrestadoRepository);
+        ServicoController servicoController = new ServicoController(servicoService);
+        ServicoPrestadoService servicoPrestadoService = new ServicoPrestadoService(
+                petRepository, servicoRepository, servicoPrestadoRepository);
+        ServicoPrestadoController servicoPrestadoController =
+                new ServicoPrestadoController(servicoPrestadoService);
 
 
         SwingUtilities.invokeLater(() -> new Ui_Gui(
