@@ -67,10 +67,8 @@ public class PetController {
     public void alterar(int id, String nome, String especie, String raca, LocalDate dataNascimento) {
         Pet pet = petRepository.buscarPorId(id);
         if (pet != null) {
-            pet.setNome(nome);
-            pet.setEspecie(especie);
-            pet.setRaca(raca);
-            pet.setNascimento(dataNascimento);
+            petRepository.alterar(new Pet(
+                    pet.getId(), nome, especie, raca, pet.getCliente(), dataNascimento));
         }
     }
 

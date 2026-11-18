@@ -15,6 +15,7 @@ import com.andre_enricco.model.ServicoPrestado;
 
 public class ServicoPrestadoRepository {
     private ArrayList<ServicoPrestado> servicosPrestados;
+    private String caminhoArquivo;
 
     public ServicoPrestadoRepository() {
         this.servicosPrestados = new ArrayList<>();
@@ -35,18 +36,25 @@ public class ServicoPrestadoRepository {
 
     public void adicionar(ServicoPrestado servicoPrestado) {
         servicosPrestados.add(servicoPrestado);
+        persistirAlteracao();
     }
 
     public void remover(ServicoPrestado servicoPrestado) {
-        servicosPrestados.remove(servicoPrestado);
+        if (servicosPrestados.remove(servicoPrestado)) {
+            persistirAlteracao();
+        }
     }
 
     public void removerPorPetId(int idPet) {
-        servicosPrestados.removeIf(servicoPrestado -> servicoPrestado.getPet() != null
+        boolean houveRemocao = servicosPrestados.removeIf(servicoPrestado -> servicoPrestado.getPet() != null
                 && servicoPrestado.getPet().getId() == idPet);
+        if (houveRemocao) {
+            persistirAlteracao();
+        }
     }
 
     public void carregarDados(String caminho, ServicoRepository servicoRepository, PetRepository petRepository) {
+        this.caminhoArquivo = caminho;
         try (BufferedReader leitor = new BufferedReader(new FileReader(caminho))) {
             String linha;
             leitor.readLine();
@@ -88,6 +96,12 @@ public class ServicoPrestadoRepository {
             }
         } catch (IOException e) {
             System.out.println("Erro ao salvar serviços prestados: " + e.getMessage());
+        }
+    }
+
+    private void persistirAlteracao() {
+        if (caminhoArquivo != null) {
+            salvarDados(caminhoArquivo);
         }
     }
 

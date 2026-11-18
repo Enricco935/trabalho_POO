@@ -11,6 +11,7 @@ import com.andre_enricco.model.Servico;
 
 public class ServicoRepository {
     private ArrayList<Servico> servicos;
+    private String caminhoArquivo;
 
     public ServicoRepository() {
         this.servicos = new ArrayList<>();
@@ -31,22 +32,27 @@ public class ServicoRepository {
 
     public void adicionar(Servico servico) {
         servicos.add(servico);
+        persistirAlteracao();
     }
 
     public void remover(Servico servico) {
-        servicos.remove(servico);
+        if (servicos.remove(servico)) {
+            persistirAlteracao();
+        }
     }
 
     public void alterar(Servico servico) {
         for (int i = 0; i < servicos.size(); i++) {
             if (servicos.get(i).getId() == servico.getId()) {
                 servicos.set(i, servico);
+                persistirAlteracao();
                 return;
             }
         }
     }
 
     public void carregarDados(String caminho) {
+        this.caminhoArquivo = caminho;
         try (BufferedReader leitor = new BufferedReader(new FileReader(caminho))) {
             String linha;
             leitor.readLine();
@@ -80,6 +86,12 @@ public class ServicoRepository {
             }
         } catch (IOException e) {
             System.out.println("Erro ao salvar serviços: " + e.getMessage());
+        }
+    }
+
+    private void persistirAlteracao() {
+        if (caminhoArquivo != null) {
+            salvarDados(caminhoArquivo);
         }
     }
 

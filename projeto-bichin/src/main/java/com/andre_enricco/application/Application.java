@@ -8,10 +8,6 @@ import com.andre_enricco.visao.cmd.*;
 import com.andre_enricco.visao.gui.Ui_Gui;
 
 public class Application {
-    private ClienteRepository clienteRepository;
-    private PetRepository petRepository;
-    private ServicoRepository servicoRepository;
-    private ServicoPrestadoRepository servicoPrestadoRepository;
 
     //centralizamos a montagem do sistema em uma unica classe, para facilitar a manutencao e a extensao do sistema
     public void iniciar() {
@@ -23,10 +19,10 @@ public class Application {
         *As classes desse nível serão injetadas na camada de controller
         * ========================================
         */
-        this.clienteRepository = new ClienteRepository();
-        this.petRepository = new PetRepository();
-        this.servicoRepository = new ServicoRepository();
-        this.servicoPrestadoRepository = new ServicoPrestadoRepository();
+        ClienteRepository clienteRepository = new ClienteRepository();
+        PetRepository petRepository = new PetRepository();
+        ServicoRepository servicoRepository = new ServicoRepository();
+        ServicoPrestadoRepository servicoPrestadoRepository = new ServicoPrestadoRepository();
 
         /*
         * ========================================
@@ -84,14 +80,6 @@ public class Application {
 
     }
 
-    public void encerrar() {
-        System.out.println("Encerrando o sistema...");
-
-        clienteRepository.salvarDados(CaminhosArquivo.CLIENTES);
-        petRepository.salvarDados(CaminhosArquivo.PETS);
-        servicoRepository.salvarDados(CaminhosArquivo.SERVICOS);
-        servicoPrestadoRepository.salvarDados(CaminhosArquivo.SERVICOS_PRESTADOS);
-
-    }
+    
 
 }

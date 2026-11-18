@@ -1,5 +1,5 @@
 id;nome;especie;raca;id_cliente;nascimento
-1;lua;cachorro;pincher;1;2026-10-10
+1;Lua;Cão;Pinscher;1;2026-10-10
 2;Nina;gato;Siamês;2;2021-03-14
 3;Thor;cachorro;Labrador;3;2019-08-22
 4;Pipoca;coelho;Mini Lop;4;2023-01-09

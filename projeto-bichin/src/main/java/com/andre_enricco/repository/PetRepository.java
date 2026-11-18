@@ -13,6 +13,7 @@ import com.andre_enricco.model.Pet;
 
 public class PetRepository {
     private ArrayList<Pet> pets;
+    private String caminhoArquivo;
 
     public PetRepository() {
         this.pets = new ArrayList<>();
@@ -42,13 +43,27 @@ public class PetRepository {
 
     public void adicionar(Pet pet) {
         pets.add(pet);
+        persistirAlteracao();
     }
 
     public void remover(Pet pet) {
-        pets.remove(pet);
+        if (pets.remove(pet)) {
+            persistirAlteracao();
+        }
+    }
+
+    public void alterar(Pet pet) {
+        for (int i = 0; i < pets.size(); i++) {
+            if (pets.get(i).getId() == pet.getId()) {
+                pets.set(i, pet);
+                persistirAlteracao();
+                return;
+            }
+        }
     }
 
     public void carregarDados(String caminho, ClienteRepository clienteRepository) {
+        this.caminhoArquivo = caminho;
         try (BufferedReader leitor = new BufferedReader(new FileReader(caminho))) {
             String linha;
             leitor.readLine();
@@ -91,6 +106,12 @@ public class PetRepository {
             }
         } catch (IOException e) {
             System.out.println("Erro ao salvar animais: " + e.getMessage());
+        }
+    }
+
+    private void persistirAlteracao() {
+        if (caminhoArquivo != null) {
+            salvarDados(caminhoArquivo);
         }
     }
 

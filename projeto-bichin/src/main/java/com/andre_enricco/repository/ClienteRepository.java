@@ -11,6 +11,7 @@ import com.andre_enricco.model.Cliente;
 
 public class ClienteRepository {
     private ArrayList<Cliente> clientes;
+    private String caminhoArquivo;
 
     public ClienteRepository() {
         this.clientes = new ArrayList<>();
@@ -31,10 +32,13 @@ public class ClienteRepository {
 
     public void adicionar(Cliente cliente) {
         clientes.add(cliente);
+        persistirAlteracao();
     }
 
     public void remover(Cliente cliente) {
-        clientes.remove(cliente);
+        if (clientes.remove(cliente)) {
+            persistirAlteracao();
+        }
     }
 
     public void alterar(Cliente cliente) {
@@ -42,12 +46,14 @@ public class ClienteRepository {
             if (clienteExistente.getId() == cliente.getId()) {
                 clienteExistente.setNome(cliente.getNome());
                 clienteExistente.setTelefone(cliente.getTelefone());
+                persistirAlteracao();
                 return;
             }
         }
     }
 
     public void carregarDados(String caminho) {
+        this.caminhoArquivo = caminho;
         try (BufferedReader leitor = new BufferedReader(new FileReader(caminho))) {
 
             String linha;
@@ -85,6 +91,12 @@ public class ClienteRepository {
 
         } catch (IOException e) {
             System.out.println("Erro ao salvar clientes: " + e.getMessage());
+        }
+    }
+
+    private void persistirAlteracao() {
+        if (caminhoArquivo != null) {
+            salvarDados(caminhoArquivo);
         }
     }
 }
