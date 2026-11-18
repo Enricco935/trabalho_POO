@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import com.andre_enricco.controller.PetController;
 import com.andre_enricco.model.Pet;
+import com.andre_enricco.util.FormatoUtils;
 import com.andre_enricco.visao.gui.modelos.ModeloFormulario;
 import com.andre_enricco.visao.gui.modelos.ModeloTabelaGenerica;
 
@@ -42,7 +43,7 @@ public class BuscaPet extends JPanel {
                     pet.getNome(),
                     pet.getEspecie(),
                     pet.getRaca(),
-                    pet.getNascimento(),
+                    FormatoUtils.formatarData(pet.getNascimento()),
                     pet.getCliente() == null ? "" : pet.getCliente().getNome()
                 });
             } catch (NumberFormatException erro) {

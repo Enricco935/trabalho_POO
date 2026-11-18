@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import com.andre_enricco.controller.PetController;
 import com.andre_enricco.model.Pet;
+import com.andre_enricco.util.FormatoUtils;
 import com.andre_enricco.visao.gui.modelos.ModeloFormulario;
 
 public class ExcluirPet extends JPanel {
@@ -49,7 +50,7 @@ public class ExcluirPet extends JPanel {
             formularioDados.setValor(0, pet.getNome());
             formularioDados.setValor(1, pet.getEspecie());
             formularioDados.setValor(2, pet.getRaca());
-            formularioDados.setValor(3, pet.getNascimento().toString());
+            formularioDados.setValor(3, FormatoUtils.formatarData(pet.getNascimento()));
             formularioDados.setValor(4,
                     pet.getCliente() == null ? "" : pet.getCliente().getNome());
 

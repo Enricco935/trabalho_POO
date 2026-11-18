@@ -67,7 +67,7 @@ public class ServicosPorPeriodo extends JPanel {
         tabela.adicionarLinha(new Object[] {
             servico.getId(),
             servico.getServico() == null ? "" : servico.getServico().getDescricao(),
-            servico.getData(),
+            FormatoUtils.formatarData(servico.getData()),
             servico.getValorCobrado(),
             servico.getPet() == null ? "" : servico.getPet().getNome(),
             servico.getPet() == null || servico.getPet().getCliente() == null

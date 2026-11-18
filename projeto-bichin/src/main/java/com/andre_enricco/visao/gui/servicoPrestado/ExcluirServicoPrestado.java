@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import com.andre_enricco.controller.ServicoPrestadoController;
 import com.andre_enricco.model.ServicoPrestado;
+import com.andre_enricco.util.FormatoUtils;
 import com.andre_enricco.visao.gui.modelos.ModeloFormulario;
 
 public class ExcluirServicoPrestado extends JPanel {
@@ -48,7 +49,7 @@ public class ExcluirServicoPrestado extends JPanel {
             idServicoPrestadoSelecionado = servicoPrestado.getId();
             formularioDados.setValor(0,
                     servicoPrestado.getServico() == null ? "" : servicoPrestado.getServico().getDescricao());
-            formularioDados.setValor(1, String.valueOf(servicoPrestado.getData()));
+            formularioDados.setValor(1, FormatoUtils.formatarData(servicoPrestado.getData()));
             formularioDados.setValor(2, String.valueOf(servicoPrestado.getValorCobrado()));
             formularioDados.setValor(3,
                     servicoPrestado.getPet() == null ? "" : servicoPrestado.getPet().getNome());

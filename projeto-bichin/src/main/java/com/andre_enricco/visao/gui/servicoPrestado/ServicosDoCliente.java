@@ -10,6 +10,7 @@ import com.andre_enricco.controller.ClienteController;
 import com.andre_enricco.controller.ServicoPrestadoController;
 import com.andre_enricco.model.Cliente;
 import com.andre_enricco.model.ServicoPrestado;
+import com.andre_enricco.util.FormatoUtils;
 import com.andre_enricco.visao.gui.modelos.ModeloFormulario;
 import com.andre_enricco.visao.gui.modelos.ModeloTabelaGenerica;
 
@@ -70,7 +71,7 @@ public class ServicosDoCliente extends JPanel {
         tabela.adicionarLinha(new Object[] {
             servico.getId(),
             servico.getServico() == null ? "" : servico.getServico().getDescricao(),
-            servico.getData(),
+            FormatoUtils.formatarData(servico.getData()),
             servico.getValorCobrado(),
             servico.getPet() == null ? "" : servico.getPet().getNome(),
             servico.getPet() == null || servico.getPet().getCliente() == null

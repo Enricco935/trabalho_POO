@@ -2,6 +2,7 @@ package com.andre_enricco.visao.gui.servicoPrestado;
 
 import com.andre_enricco.controller.ServicoPrestadoController;
 import com.andre_enricco.model.ServicoPrestado;
+import com.andre_enricco.util.FormatoUtils;
 import com.andre_enricco.visao.gui.modelos.ModeloTabelaGenerica;
 import com.andre_enricco.visao.gui.modelos.TelaAtualizavel;
 
@@ -30,7 +31,7 @@ public class ListaServicosPrestados extends ModeloTabelaGenerica implements Tela
             adicionarLinha(new Object[] {
                 servicoPrestado.getId(),
                 servicoPrestado.getServico() == null ? "" : servicoPrestado.getServico().getDescricao(),
-                servicoPrestado.getData(),
+                FormatoUtils.formatarData(servicoPrestado.getData()),
                 servicoPrestado.getValorCobrado(),
                 servicoPrestado.getPet() == null ? "" : servicoPrestado.getPet().getNome(),
                 servicoPrestado.getPet() == null || servicoPrestado.getPet().getCliente() == null

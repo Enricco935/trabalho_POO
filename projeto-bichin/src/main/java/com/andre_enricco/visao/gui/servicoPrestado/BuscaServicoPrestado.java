@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import com.andre_enricco.controller.ServicoPrestadoController;
 import com.andre_enricco.model.ServicoPrestado;
+import com.andre_enricco.util.FormatoUtils;
 import com.andre_enricco.visao.gui.modelos.ModeloFormulario;
 import com.andre_enricco.visao.gui.modelos.ModeloTabelaGenerica;
 
@@ -42,7 +43,7 @@ public class BuscaServicoPrestado extends JPanel {
                     servicoPrestado.getServico() == null
                             ? ""
                             : servicoPrestado.getServico().getDescricao(),
-                    servicoPrestado.getData(),
+                    FormatoUtils.formatarData(servicoPrestado.getData()),
                     servicoPrestado.getValorCobrado(),
                     servicoPrestado.getPet() == null
                             ? ""
