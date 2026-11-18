@@ -3,8 +3,11 @@ package com.andre_enricco.visao.gui.servicoPrestado;
 import com.andre_enricco.controller.ServicoPrestadoController;
 import com.andre_enricco.model.ServicoPrestado;
 import com.andre_enricco.visao.gui.modelos.ModeloTabelaGenerica;
+import com.andre_enricco.visao.gui.modelos.TelaAtualizavel;
 
-public class ListaServicosPrestados extends ModeloTabelaGenerica {
+public class ListaServicosPrestados extends ModeloTabelaGenerica implements TelaAtualizavel {
+
+    private final ServicoPrestadoController controller;
 
     public ListaServicosPrestados(ServicoPrestadoController controller) {
         super(new String[] {
@@ -16,6 +19,13 @@ public class ListaServicosPrestados extends ModeloTabelaGenerica {
             "Dono"
         });
 
+        this.controller = controller;
+        atualizar();
+    }
+
+    @Override
+    public void atualizar() {
+        limparLinhas();
         for (ServicoPrestado servicoPrestado : controller.listar()) {
             adicionarLinha(new Object[] {
                 servicoPrestado.getId(),

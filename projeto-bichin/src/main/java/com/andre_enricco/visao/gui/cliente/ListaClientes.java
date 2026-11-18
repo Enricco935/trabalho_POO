@@ -1,12 +1,13 @@
 package com.andre_enricco.visao.gui.cliente;
 
-import java.util.ArrayList;
-
 import com.andre_enricco.controller.ClienteController;
 import com.andre_enricco.model.Cliente;
 import com.andre_enricco.visao.gui.modelos.ModeloTabelaGenerica;
+import com.andre_enricco.visao.gui.modelos.TelaAtualizavel;
 
-public class ListaClientes extends ModeloTabelaGenerica {
+public class ListaClientes extends ModeloTabelaGenerica implements TelaAtualizavel {
+
+    private final ClienteController controller;
 
     public ListaClientes(ClienteController controller) {
 
@@ -16,9 +17,15 @@ public class ListaClientes extends ModeloTabelaGenerica {
             "Telefone"
         });
 
-        ArrayList<Cliente> clientes = controller.listar();
+        this.controller = controller;
+        atualizar();
+    }
 
-        for (Cliente cliente : clientes) {
+    @Override
+    public void atualizar() {
+        limparLinhas();
+
+        for (Cliente cliente : controller.listar()) {
             adicionarLinha(new Object[] {
                 cliente.getId(),
                 cliente.getNome(),
