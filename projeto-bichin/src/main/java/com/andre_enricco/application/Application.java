@@ -1,5 +1,4 @@
 package com.andre_enricco.application;
-import javax.swing.SwingUtilities;
 
 import com.andre_enricco.config.CaminhosArquivo;
 import com.andre_enricco.controller.*;
@@ -9,7 +8,6 @@ import com.andre_enricco.service.PetService;
 import com.andre_enricco.service.ServicoService;
 import com.andre_enricco.service.ServicoPrestadoService;
 import com.andre_enricco.visao.cmd.*;
-import com.andre_enricco.visao.gui.Ui_Gui;
 
 public class Application {
 
@@ -61,32 +59,26 @@ public class Application {
                 new ServicoPrestadoController(servicoPrestadoService);
 
 
-        SwingUtilities.invokeLater(() -> new Ui_Gui(
-                clienteController,
-                petController,
-                servicoController,
-                servicoPrestadoController));
-        
         /*
         * ========================================
         * Cria cada classe da interface do usuário informando a classe de controller que ela deve manipular (MENUS)
         * Exemplo: UiCmdCliente uiCmdCliente = new UiCmdCliente( clienteController );
         * ========================================
         */
-        // UiCmdCliente uiCmdCliente = new UiCmdCliente(clienteController, servicoPrestadoController);
-        // UiCmdPet uiCmdPet = new UiCmdPet(clienteController, petController);
-        // UiCmdServico uiCmdServico = new UiCmdServico(servicoController);
-        // UiCmdServicoPrestado uiCmdServicoPrestado = new UiCmdServicoPrestado(clienteController, servicoPrestadoController);
+        UiCmdCliente uiCmdCliente = new UiCmdCliente(clienteController, servicoPrestadoController);
+        UiCmdPet uiCmdPet = new UiCmdPet(clienteController, petController);
+        UiCmdServico uiCmdServico = new UiCmdServico(servicoController);
+        UiCmdServicoPrestado uiCmdServicoPrestado = new UiCmdServicoPrestado(clienteController, servicoPrestadoController);
 
-        // UI_Cmd UICmd =
-        //     new UI_Cmd(
-        //         uiCmdCliente,
-        //         uiCmdPet,
-        //         uiCmdServico,
-        //         uiCmdServicoPrestado
-        //     );
+        UI_Cmd UICmd =
+            new UI_Cmd(
+                uiCmdCliente,
+                uiCmdPet,
+                uiCmdServico,
+                uiCmdServicoPrestado
+            );
 
-        // UICmd.iniciar();
+        UICmd.iniciar();
 
     }
 

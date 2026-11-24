@@ -3,6 +3,8 @@ package com.andre_enricco.controller;
 import java.util.ArrayList;
 
 import com.andre_enricco.model.Servico;
+import com.andre_enricco.model.ServicoInterno;
+import com.andre_enricco.model.ServicoExterno;
 import com.andre_enricco.service.ServicoService;
 
 public class ServicoController {
@@ -20,8 +22,14 @@ public class ServicoController {
         return servicoService.temServicosPrestados(idServico);
     }
 
-    public void adicionar(int id, String nome, double preco) {
-        servicoService.adicionar(id, nome, preco);
+    public void adicionar(int id, String nome, double preco, String responsavel, double valorTerceirizado) {
+        Servico servico;
+        if (responsavel == null || responsavel.isBlank()) {
+            servico = new ServicoExterno(id, nome, preco, valorTerceirizado);
+        } else {
+            servico = new ServicoInterno(id, nome, preco, responsavel);
+        }
+        servicoService.adicionar(servico);
     }
 
     public void alterar(int id, String descricao, double valor) {

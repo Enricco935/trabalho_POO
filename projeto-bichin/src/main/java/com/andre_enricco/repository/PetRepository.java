@@ -98,7 +98,7 @@ public class PetRepository {
                 escritor.write(
                     pet.getId() + ";" +
                     pet.getNome() + ";" +
-                    pet.getEspecie() + ";" +
+                    pet.getEspecie().name() + ";" +
                     pet.getRaca() + ";" +
                     pet.getCliente().getId() + ";" +
                     pet.getNascimento()

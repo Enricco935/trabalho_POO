@@ -61,7 +61,7 @@ public class ServicoPrestado {
         return this.pet.getCliente();
     }
     public double getValorServico() {
-        return this.servico.getValor();
+        return this.servico.valorFinalDoServico();
     }
 
 

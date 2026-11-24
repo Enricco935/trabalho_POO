@@ -37,8 +37,8 @@ public class ServicoService {
         return false;
     }
 
-    public void adicionar(int id, String nome, double preco) {
-        servicoRepository.adicionar(new Servico(id, nome, preco));
+    public void adicionar(Servico servico) {
+        servicoRepository.adicionar(servico);
     }
 
     public void alterar(int id, String descricao, double valor) {

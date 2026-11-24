@@ -1,6 +1,6 @@
 package com.andre_enricco.model;
 
-public class Servico {
+public abstract class Servico {
     private String descricao;
     private int id;
     private double valor;
@@ -13,6 +13,8 @@ public class Servico {
         this.id = id;
         this.valor = valor;
     }
+
+    public abstract double valorFinalDoServico();
 
     public String getDescricao() {
         return descricao;

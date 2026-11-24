@@ -35,7 +35,14 @@ public class UiCmdPet {
         }
 
         String nomePet = InputUtils.lerTexto("Digite o nome do pet: ");
-        Especie especie = FormatoUtils.parseEspecie(InputUtils.lerTexto("Digite a especie do pet: "));
+        Especie especie = null;
+        while (especie == null) {
+            try {
+                especie = FormatoUtils.parseEspecie(InputUtils.lerTexto("Digite a especie do pet (Cao, Gato, Passaro ou Peixe): "));
+            } catch (IllegalArgumentException erro) {
+                System.out.println("Especie invalida. Informe Cao, Gato, Passaro ou Peixe.");
+            }
+        }
         String raca = InputUtils.lerTexto("Digite a raca do pet: ");
         LocalDate nascimento = InputUtils.lerData("Digite a data de nascimento do pet (dd/MM/aaaa): ");
 
@@ -79,7 +86,14 @@ public class UiCmdPet {
         }
 
         String nome = InputUtils.lerTexto("Digite o novo nome do pet: ");
-        Especie especie = FormatoUtils.parseEspecie(InputUtils.lerTexto("Digite a nova especie do pet: "));
+        Especie especie = null;
+        while (especie == null) {
+            try {
+                especie = FormatoUtils.parseEspecie(InputUtils.lerTexto("Digite a nova especie do pet (Cao, Gato, Passaro ou Peixe): "));
+            } catch (IllegalArgumentException erro) {
+                System.out.println("Especie invalida. Informe Cao, Gato, Passaro ou Peixe.");
+            }
+        }
         String raca = InputUtils.lerTexto("Digite a nova raca do pet: ");
         LocalDate nascimento = InputUtils.lerData("Digite a nova data de nascimento (dd/MM/aaaa): ");
 

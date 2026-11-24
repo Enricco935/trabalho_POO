@@ -13,7 +13,7 @@ public class UiCmdServico {
     private void listar() {
         System.out.println("Lista de servicos:");
         for (var servico : controllerServico.listar()) {
-            System.out.println(servico.getId() + " - " + servico.getDescricao() + " - R$ " + servico.getValor());
+            System.out.println(servico.getId() + " - " + servico.getDescricao() + " - R$ " + servico.valorFinalDoServico());
         }
     }
 
@@ -22,7 +22,7 @@ public class UiCmdServico {
         var servico = controllerServico.buscar(id);
 
         if (servico != null) {
-            System.out.println("Servico encontrado: " + servico.getDescricao() + " - R$ " + servico.getValor());
+            System.out.println("Servico encontrado: " + servico.getDescricao() + " - R$ " + servico.valorFinalDoServico());
         } else {
             System.out.println("Servico nao encontrado.");
         }
@@ -47,7 +47,16 @@ public class UiCmdServico {
         String descricao = InputUtils.lerTexto("Digite a descricao do servico: ");
         double valor = InputUtils.lerDouble("Digite o valor do servico: ");
 
-        controllerServico.adicionar(id, descricao, valor);
+        int tipo = InputUtils.lerInteiro("Qual o tipo do serviço: 1) Interno ou 2) Externo? ");
+        String responsavel = null;
+        double valorTerceirizado = 0;
+        if (tipo == 1) {
+            responsavel = InputUtils.lerTexto("CRMV do responsável pelo serviço: ");
+        } else {
+            valorTerceirizado = InputUtils.lerDouble("Valor do serviço terceirizado: ");
+        }
+
+        controllerServico.adicionar(id, descricao, valor, responsavel, valorTerceirizado);
         System.out.println("Servico adicionado com sucesso.");
     }
 

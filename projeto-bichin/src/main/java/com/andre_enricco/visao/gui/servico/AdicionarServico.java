@@ -46,7 +46,7 @@ public class AdicionarServico extends JPanel {
                 return;
             }
 
-            controller.adicionar(id, descricao, valor);
+            controller.adicionar(id, descricao, valor, null, 0);
             JOptionPane.showMessageDialog(this, "Serviço cadastrado com sucesso.");
             formulario.limparCampos();
         } catch (NumberFormatException erro) {

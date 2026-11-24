@@ -59,7 +59,7 @@ public class UiCmdServicoPrestado {
         } while (servico == null);
 
         System.out.printf("Servico escolhido: %s - Valor cadastrado: R$ %.2f%n",
-                servico.getDescricao(), servico.getValor());
+                servico.getDescricao(), servico.valorFinalDoServico());
         double valor = InputUtils.lerDouble("Digite o valor cobrado: ");
 
         if (controllerServicoPrestado.adicionar(id, data, idPet, idServico, valor)) {
