@@ -11,7 +11,8 @@ public class MenuServico extends ModeloMenuVertical {
             new String[] {
                 "Listar serviços",
                 "Buscar serviço",
-                "Adicionar serviço",
+                "Cadastrar serviço interno",
+                "Cadastrar serviço externo",
                 "Alterar serviço",
                 "Remover serviço"
             },

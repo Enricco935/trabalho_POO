@@ -22,14 +22,18 @@ public class ServicoController {
         return servicoService.temServicosPrestados(idServico);
     }
 
-    public void adicionar(int id, String nome, double preco, String responsavel, double valorTerceirizado) {
-        Servico servico;
-        if (responsavel == null || responsavel.isBlank()) {
-            servico = new ServicoExterno(id, nome, preco, valorTerceirizado);
-        } else {
-            servico = new ServicoInterno(id, nome, preco, responsavel);
+    public void adicionarInterno(int id, String descricao, double valor, String crmv) {
+        if (crmv == null || crmv.isBlank()) {
+            throw new IllegalArgumentException("O CRMV do responsável é obrigatório para serviço interno.");
         }
-        servicoService.adicionar(servico);
+        servicoService.adicionar(new ServicoInterno(id, descricao, valor, crmv.trim()));
+    }
+
+    public void adicionarExterno(int id, String descricao, double valor, double valorTerceirizado) {
+        if (valorTerceirizado < 0) {
+            throw new IllegalArgumentException("O valor terceirizado não pode ser negativo.");
+        }
+        servicoService.adicionar(new ServicoExterno(id, descricao, valor, valorTerceirizado));
     }
 
     public void alterar(int id, String descricao, double valor) {

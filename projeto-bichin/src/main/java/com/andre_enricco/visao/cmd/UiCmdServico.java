@@ -56,7 +56,14 @@ public class UiCmdServico {
             valorTerceirizado = InputUtils.lerDouble("Valor do serviço terceirizado: ");
         }
 
-        controllerServico.adicionar(id, descricao, valor, responsavel, valorTerceirizado);
+        if (tipo == 1) {
+            controllerServico.adicionarInterno(id, descricao, valor, responsavel);
+        } else if (tipo == 2) {
+            controllerServico.adicionarExterno(id, descricao, valor, valorTerceirizado);
+        } else {
+            System.out.println("Tipo inválido. Serviço não cadastrado.");
+            return;
+        }
         System.out.println("Servico adicionado com sucesso.");
     }
 
