@@ -1,12 +1,44 @@
 package com.andre_enricco.config;
 
-public class CaminhosArquivo {
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-    private static final String BASE =
-        "src/main/resources/dados/";
+public final class CaminhosArquivo {
 
-    public static final String CLIENTES = BASE + "clientes.txt";
-    public static final String PETS = BASE + "pets.txt";
-    public static final String SERVICOS = BASE + "servicos.txt";
-    public static final String SERVICOS_PRESTADOS = BASE + "servicos_prestados.txt";
+    private static final Path DIRETORIO_DADOS = localizarDiretorioDados();
+
+    public static final String CLIENTES = caminho("clientes.txt");
+    public static final String PETS = caminho("pets.txt");
+    public static final String SERVICOS = caminho("servicos.txt");
+    public static final String SERVICOS_PRESTADOS = caminho("servicos_prestados.txt");
+
+    private CaminhosArquivo() {
+    }
+
+    private static Path localizarDiretorioDados() {
+        Path diretorio = Paths.get(System.getProperty("user.dir")).toAbsolutePath();
+
+        while (diretorio != null && !Files.exists(diretorio.resolve("pom.xml"))) {
+            diretorio = diretorio.getParent();
+        }
+
+        if (diretorio == null) {
+            throw new IllegalStateException("Não foi possível encontrar o pom.xml do projeto.");
+        }
+
+        Path pastaDados = diretorio.resolve("dados");
+        try {
+            Files.createDirectories(pastaDados);
+        } catch (IOException erro) {
+            throw new IllegalStateException("Não foi possível criar a pasta dados.", erro);
+        }
+
+        return pastaDados;
+    }
+
+    private static String caminho(String nomeArquivo) {
+        return DIRETORIO_DADOS.resolve(nomeArquivo).toString();
+    }
 }

@@ -1,7 +1,0 @@
-id;nome;telefone
-1;Enrícco;(37) 99841-3009
-2;Marina Costa;(11) 98812-3401
-3;Rafael Mendes;(21) 97723-4502
-4;Beatriz Lima;(31) 96634-5603
-5;João Ferreira;(41) 95545-6704
-6;Camila Rocha;(51) 94456-7805

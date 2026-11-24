@@ -1,0 +1,7 @@
+id;descricao;valor;crmv;valorTerceirizado
+1;Banho;45.0;;0.0
+2;Tosa;65.0;;0.0
+3;Consulta veterinária;120.0;;0.0
+4;Corte de unhas;25.0;;0.0
+5;Hidratação;55.0;;0.0
+78;adf;10.0;1426;0.0
