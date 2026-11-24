@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.andre_enricco.model.Cliente;
+import com.andre_enricco.model.Especie;
 import com.andre_enricco.model.Pet;
 
 public class PetRepository {
@@ -73,7 +74,7 @@ public class PetRepository {
 
                 int id = Integer.parseInt(dados[0]);
                 String nome = dados[1].trim();
-                String especie = dados[2].trim();
+                Especie especie = Especie.valueOf(dados[2].trim());
                 String raca = dados[3].trim();
                 int idCliente = Integer.parseInt(dados[4]);
                 LocalDate nascimento = LocalDate.parse(dados[5].trim());

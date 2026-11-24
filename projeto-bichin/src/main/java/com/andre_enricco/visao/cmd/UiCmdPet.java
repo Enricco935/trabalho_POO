@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import com.andre_enricco.controller.ClienteController;
 import com.andre_enricco.controller.PetController;
+import com.andre_enricco.model.Especie;
+import com.andre_enricco.util.FormatoUtils;
 import com.andre_enricco.util.InputUtils;
 import com.andre_enricco.util.OutputUtils;
 
@@ -33,7 +35,7 @@ public class UiCmdPet {
         }
 
         String nomePet = InputUtils.lerTexto("Digite o nome do pet: ");
-        String especie = InputUtils.lerTexto("Digite a especie do pet: ");
+        Especie especie = FormatoUtils.parseEspecie(InputUtils.lerTexto("Digite a especie do pet: "));
         String raca = InputUtils.lerTexto("Digite a raca do pet: ");
         LocalDate nascimento = InputUtils.lerData("Digite a data de nascimento do pet (dd/MM/aaaa): ");
 
@@ -77,7 +79,7 @@ public class UiCmdPet {
         }
 
         String nome = InputUtils.lerTexto("Digite o novo nome do pet: ");
-        String especie = InputUtils.lerTexto("Digite a nova especie do pet: ");
+        Especie especie = FormatoUtils.parseEspecie(InputUtils.lerTexto("Digite a nova especie do pet: "));
         String raca = InputUtils.lerTexto("Digite a nova raca do pet: ");
         LocalDate nascimento = InputUtils.lerData("Digite a nova data de nascimento (dd/MM/aaaa): ");
 

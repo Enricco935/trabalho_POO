@@ -1,9 +1,12 @@
 package com.andre_enricco.util;
 
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
+
+import com.andre_enricco.model.Especie;
 
 /** Regras de conversão e validação independentes da interface de entrada. */
 public final class FormatoUtils {
@@ -25,5 +28,14 @@ public final class FormatoUtils {
 
     public static String formatarData(LocalDate data) {
         return data.format(FORMATO_DATA_EXIBICAO);
+    }
+
+    public static Especie parseEspecie(String especie) throws IllegalArgumentException{
+        return Especie.valueOf(removerAcentos(especie.trim().toUpperCase()));
+    }
+
+    public static String removerAcentos(String texto) {
+        return Normalizer.normalize(texto, Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "");
     }
 }

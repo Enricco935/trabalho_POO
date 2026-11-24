@@ -50,7 +50,7 @@ public class AlterarPet extends JPanel {
 
             idPetSelecionado = pet.getId();
             formularioEdicao.setValor(0, pet.getNome());
-            formularioEdicao.setValor(1, pet.getEspecie());
+            formularioEdicao.setValor(1, pet.getEspecie().getDescricao());
             formularioEdicao.setValor(2, pet.getRaca());
             formularioEdicao.setValor(3, FormatoUtils.formatarData(pet.getNascimento()));
 
@@ -72,12 +72,14 @@ public class AlterarPet extends JPanel {
 
         try {
             LocalDate nascimento = FormatoUtils.converterData(textoNascimento);
-            controller.alterar(idPetSelecionado, nome, especie, raca, nascimento);
+            controller.alterar(idPetSelecionado, nome, FormatoUtils.parseEspecie(especie), raca, nascimento);
             JOptionPane.showMessageDialog(this, "Pet alterado com sucesso.");
             formularioBusca.limparCampos();
             formularioEdicao.limparCampos();
         } catch (DateTimeParseException erro) {
             JOptionPane.showMessageDialog(this, "Use a data no formato dd/MM/aaaa.");
+        } catch (IllegalArgumentException erro) {
+            JOptionPane.showMessageDialog(this, "A espécie deve ser Gato, Cão, Peixe ou Pássaro.");
         }
     }
 }

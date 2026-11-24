@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Pet {
     private int id;
     private String nome;
-    private String especie;
+    private Especie especie;
     private String raca;
     private Cliente cliente;
     private LocalDate nascimento;
@@ -13,7 +13,7 @@ public class Pet {
     public Pet() {
 
     }
-    public Pet(int id, String nome, String especie, String raca, Cliente cliente, LocalDate nascimento) {
+    public Pet(int id, String nome, Especie especie, String raca, Cliente cliente, LocalDate nascimento) {
         this.id = id;
         this.nome = nome;
         this.especie = especie;
@@ -34,10 +34,14 @@ public class Pet {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public String getEspecie() {
+    public Especie getEspecie() {
         return especie;
     }
-    public void setEspecie(String especie) {
+    public String getEspecieDescricao() {
+        return especie.getDescricao();
+    }
+    
+    public void setEspecie(Especie especie) {
         this.especie = especie;
     }
     public String getRaca() {

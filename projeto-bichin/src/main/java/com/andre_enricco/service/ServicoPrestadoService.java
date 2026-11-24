@@ -73,6 +73,15 @@ public class ServicoPrestadoService {
             return false;
         }
 
+        LocalDate hoje = LocalDate.now();
+        if (hoje.isAfter(data)) {
+            return false;
+        }
+
+        if (valor < 0) {
+            return false;
+        }
+
         servicoPrestadoRepository.adicionar(new ServicoPrestado(id, servico, data, valor, pet));
         return true;
     }

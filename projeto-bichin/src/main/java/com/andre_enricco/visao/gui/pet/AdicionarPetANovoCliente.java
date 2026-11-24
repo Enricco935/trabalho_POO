@@ -58,7 +58,7 @@ public class AdicionarPetANovoCliente extends JPanel {
 
         try {
             boolean cadastrado = controller.adicionarComNovoCliente(
-                    Integer.parseInt(idPetTexto), nomePet, especie, raca,
+                    Integer.parseInt(idPetTexto), nomePet, FormatoUtils.parseEspecie(especie), raca,
                     FormatoUtils.converterData(nascimentoTexto), Integer.parseInt(idClienteTexto),
                     nomeCliente, telefoneCliente);
 

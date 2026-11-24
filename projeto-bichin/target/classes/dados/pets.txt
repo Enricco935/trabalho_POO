@@ -1,7 +1,7 @@
 id;nome;especie;raca;id_cliente;nascimento
-1;Lua;Cão;Pinscher;1;2026-10-10
-2;Nina;gato;Siamês;2;2021-03-14
-3;Thor;cachorro;Labrador;3;2019-08-22
-4;Pipoca;coelho;Mini Lop;4;2023-01-09
-5;Bento;cachorro;Shih Tzu;5;2022-11-30
-6;Mimi;gato;SRD;6;2020-06-05
+1;Lua;CAO;Pinscher;1;2026-10-10
+2;Nina;GATO;Siamês;2;2021-03-14
+3;Thor;CAO;Labrador;3;2019-08-22
+4;Pipoca;PASSARO;Mini Lop;4;2023-01-09
+5;Bento;CAO;Shih Tzu;5;2022-11-30
+6;Mimi;GATO;SRD;6;2020-06-05

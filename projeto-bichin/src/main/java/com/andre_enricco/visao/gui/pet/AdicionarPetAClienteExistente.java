@@ -48,7 +48,7 @@ public class AdicionarPetAClienteExistente extends JPanel {
 
         try {
             boolean cadastrado = controller.adicionarAClienteExistente(
-                    Integer.parseInt(idPetTexto), nomePet, especie, raca,
+                    Integer.parseInt(idPetTexto), nomePet, FormatoUtils.parseEspecie(especie), raca,
                     FormatoUtils.converterData(nascimentoTexto), Integer.parseInt(idClienteTexto));
 
             if (!cadastrado) {

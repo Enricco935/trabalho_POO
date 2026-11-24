@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.andre_enricco.model.Cliente;
+import com.andre_enricco.model.Especie;
 import com.andre_enricco.model.Pet;
 import com.andre_enricco.model.ServicoPrestado;
 import com.andre_enricco.repository.ClienteRepository;
@@ -56,13 +57,13 @@ public class PetService {
         return false;
     }
 
-    public boolean adicionar(int idPet, String nomePet, String especie, String raca, LocalDate dataNascimento,
+    public boolean adicionar(int idPet, String nomePet, Especie especie, String raca, LocalDate dataNascimento,
             int idCliente, String nomeCliente, String telefoneCliente) {
         return adicionarComNovoCliente(idPet, nomePet, especie, raca, dataNascimento,
                 idCliente, nomeCliente, telefoneCliente);
     }
 
-    public boolean adicionarAClienteExistente(int idPet, String nomePet, String especie, String raca,
+    public boolean adicionarAClienteExistente(int idPet, String nomePet, Especie especie, String raca,
             LocalDate dataNascimento, int idCliente) {
         Cliente cliente = clienteRepository.buscarPorId(idCliente);
         if (petRepository.buscarPorId(idPet) != null || cliente == null) {
@@ -73,7 +74,7 @@ public class PetService {
         return true;
     }
 
-    public boolean adicionarComNovoCliente(int idPet, String nomePet, String especie, String raca,
+    public boolean adicionarComNovoCliente(int idPet, String nomePet, Especie especie, String raca,
             LocalDate dataNascimento, int idCliente, String nomeCliente, String telefoneCliente) {
         if (petRepository.buscarPorId(idPet) != null || clienteRepository.buscarPorId(idCliente) != null) {
             return false;
@@ -89,7 +90,7 @@ public class PetService {
         return petRepository.buscarPorId(id);
     }
 
-    public void alterar(int id, String nome, String especie, String raca, LocalDate dataNascimento) {
+    public void alterar(int id, String nome, Especie especie, String raca, LocalDate dataNascimento) {
         Pet pet = petRepository.buscarPorId(id);
         if (pet != null) {
             petRepository.alterar(new Pet(

@@ -48,7 +48,7 @@ public class ExcluirPet extends JPanel {
 
             idPetSelecionado = pet.getId();
             formularioDados.setValor(0, pet.getNome());
-            formularioDados.setValor(1, pet.getEspecie());
+            formularioDados.setValor(1, pet.getEspecieDescricao());
             formularioDados.setValor(2, pet.getRaca());
             formularioDados.setValor(3, FormatoUtils.formatarData(pet.getNascimento()));
             formularioDados.setValor(4,
