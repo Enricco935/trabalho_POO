@@ -75,20 +75,20 @@ public class Application {
                 servicoController,
                 servicoPrestadoController));
                 
-        UiCmdCliente uiCmdCliente = new UiCmdCliente(clienteController, servicoPrestadoController);
-        UiCmdPet uiCmdPet = new UiCmdPet(clienteController, petController);
-        UiCmdServico uiCmdServico = new UiCmdServico(servicoController);
-        UiCmdServicoPrestado uiCmdServicoPrestado = new UiCmdServicoPrestado(clienteController, servicoPrestadoController);
+        // UiCmdCliente uiCmdCliente = new UiCmdCliente(clienteController, servicoPrestadoController);
+        // UiCmdPet uiCmdPet = new UiCmdPet(clienteController, petController);
+        // UiCmdServico uiCmdServico = new UiCmdServico(servicoController);
+        // UiCmdServicoPrestado uiCmdServicoPrestado = new UiCmdServicoPrestado(clienteController, servicoPrestadoController);
 
-        UI_Cmd UICmd =
-            new UI_Cmd(
-                uiCmdCliente,
-                uiCmdPet,
-                uiCmdServico,
-                uiCmdServicoPrestado
-            );
+        // UI_Cmd UICmd =
+        //     new UI_Cmd(
+        //         uiCmdCliente,
+        //         uiCmdPet,
+        //         uiCmdServico,
+        //         uiCmdServicoPrestado
+        //     );
 
-        UICmd.iniciar();
+        // UICmd.iniciar();
 
     }
 
