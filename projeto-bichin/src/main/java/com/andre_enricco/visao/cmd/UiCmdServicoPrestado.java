@@ -62,10 +62,11 @@ public class UiCmdServicoPrestado {
                 servico.getDescricao(), servico.valorFinalDoServico());
         double valor = InputUtils.lerDouble("Digite o valor cobrado: ");
 
-        if (controllerServicoPrestado.adicionar(id, data, idPet, idServico, valor)) {
+        try {
+            controllerServicoPrestado.adicionar(id, data, idPet, idServico, valor);
             System.out.println("Servico prestado adicionado.");
-        } else {
-            System.out.println("Nao foi possivel cadastrar o servico prestado. Confira os IDs informados.");
+        } catch (IllegalArgumentException erro) {
+            System.out.println(erro.getMessage());
         }
     }
 

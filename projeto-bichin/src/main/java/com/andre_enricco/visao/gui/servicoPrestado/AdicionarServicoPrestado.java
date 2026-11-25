@@ -23,8 +23,7 @@ public class AdicionarServicoPrestado extends JPanel {
             "ID do serviço prestado:",
             "Data (dd/MM/aaaa):",
             "ID do pet:",
-            "ID do serviço:",
-            "Valor cobrado (use ponto para decimais):"
+            "ID do serviço:"
         }, "Cadastrar");
 
         formulario.getBotao().addActionListener(e -> cadastrar());
@@ -36,28 +35,32 @@ public class AdicionarServicoPrestado extends JPanel {
         String dataTexto = formulario.getValor(1).trim();
         String idPetTexto = formulario.getValor(2).trim();
         String idServicoTexto = formulario.getValor(3).trim();
-        String valorTexto = formulario.getValor(4).trim();
 
-        if (idTexto.isEmpty() || dataTexto.isEmpty() || idPetTexto.isEmpty()
-                || idServicoTexto.isEmpty() || valorTexto.isEmpty()) {
+        if (idTexto.isEmpty() || dataTexto.isEmpty() || idPetTexto.isEmpty() || idServicoTexto.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos.");
             return;
         }
 
         try {
-            boolean cadastrado = controller.adicionar(
-                    Integer.parseInt(idTexto),
-                    FormatoUtils.converterData(dataTexto),
-                    Integer.parseInt(idPetTexto),
-                    Integer.parseInt(idServicoTexto),
-                    Double.parseDouble(valorTexto));
+            int id = Integer.parseInt(idTexto);
+            var data = FormatoUtils.converterData(dataTexto);
+            int idPet = Integer.parseInt(idPetTexto);
+            int idServico = Integer.parseInt(idServicoTexto);
 
-            if (!cadastrado) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Não foi possível cadastrar. Confira se o ID já existe e se pet e serviço estão cadastrados.");
+            var servico = controller.buscarServicoParaPrestacao(idServico);
+
+            String valorTexto = JOptionPane.showInputDialog(
+                    this,
+                    String.format("Serviço escolhido: %s%nValor cadastrado: R$ %.2f%n%nDigite o valor cobrado:",
+                            servico.getDescricao(), servico.valorFinalDoServico()),
+                    "Valor do serviço prestado",
+                    JOptionPane.QUESTION_MESSAGE);
+            if (valorTexto == null) {
                 return;
             }
+
+            double valor = Double.parseDouble(valorTexto.trim());
+            controller.adicionar(id, data, idPet, idServico, valor);
 
             JOptionPane.showMessageDialog(this, "Serviço prestado cadastrado com sucesso.");
             formulario.limparCampos();
@@ -67,6 +70,8 @@ public class AdicionarServicoPrestado extends JPanel {
                     "IDs precisam ser números e o valor deve usar ponto para decimais.");
         } catch (DateTimeParseException erro) {
             JOptionPane.showMessageDialog(this, "Use a data no formato dd/MM/aaaa.");
+        } catch (IllegalArgumentException erro) {
+            JOptionPane.showMessageDialog(this, erro.getMessage());
         }
     }
 }

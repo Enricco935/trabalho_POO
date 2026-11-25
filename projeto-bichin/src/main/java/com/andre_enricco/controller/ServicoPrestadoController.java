@@ -32,6 +32,10 @@ public class ServicoPrestadoController {
         return servicoPrestadoService.buscarServico(id);
     }
 
+    public Servico buscarServicoParaPrestacao(int id) {
+        return servicoPrestadoService.buscarServicoParaPrestacao(id);
+    }
+
     public ArrayList<Pet> buscarBichosPorNomeDono(String nomeDono) {
         return servicoPrestadoService.buscarBichosPorNomeDono(nomeDono);
     }

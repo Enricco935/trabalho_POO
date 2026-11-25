@@ -54,6 +54,14 @@ public class ServicoPrestadoService {
         return servicoRepository.buscarPorId(id);
     }
 
+    public Servico buscarServicoParaPrestacao(int id) {
+        Servico servico = servicoRepository.buscarPorId(id);
+        if (servico == null) {
+            throw new IllegalArgumentException("Serviço não encontrado. Confira o ID informado.");
+        }
+        return servico;
+    }
+
     public ArrayList<Pet> buscarBichosPorNomeDono(String nomeDono) {
         return servicoPrestadoRepository.buscarBichosPorNomeDono(nomeDono);
     }
@@ -63,23 +71,28 @@ public class ServicoPrestadoService {
     }
 
     public boolean adicionar(int id, LocalDate data, int idPet, int idServico, double valor) {
+        if (data == null) {
+            throw new IllegalArgumentException("Informe uma data válida para o serviço prestado.");
+        }
+        if (!Double.isFinite(valor)) {
+            throw new IllegalArgumentException("O valor cobrado precisa ser um número válido.");
+        }
+        if (valor < 0) {
+            throw new IllegalArgumentException("O valor cobrado não pode ser negativo.");
+        }
         if (servicoPrestadoRepository.buscarPorId(id) != null) {
-            return false;
+            throw new IllegalArgumentException("Já existe um serviço prestado com esse ID.");
         }
 
         Pet pet = petRepository.buscarPorId(idPet);
-        Servico servico = servicoRepository.buscarPorId(idServico);
-        if (pet == null || servico == null) {
-            return false;
+        if (pet == null) {
+            throw new IllegalArgumentException("Pet não encontrado. Confira o ID informado.");
         }
 
-        LocalDate hoje = LocalDate.now();
-        if (hoje.isAfter(data)) {
-            return false;
-        }
+        Servico servico = buscarServicoParaPrestacao(idServico);
 
-        if (valor < 0) {
-            return false;
+        if (data.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("A data do serviço prestado não pode estar no passado.");
         }
 
         servicoPrestadoRepository.adicionar(new ServicoPrestado(id, servico, data, valor, pet));
